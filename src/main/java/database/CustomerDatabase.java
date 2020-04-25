@@ -7,6 +7,7 @@ import models.Customer;
 
 public class CustomerDatabase {
 
+//реєструє нового користувача
     public void registerCustomer(String username, String password) throws SQLException {
         if(!RegisterParser.parseMatches(username))
             Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertCustomerLoginData(username, password));
@@ -14,11 +15,13 @@ public class CustomerDatabase {
             throw new RuntimeException();
     }
 
+//витягує дані всіх користувачів з б\д
     public List<Customer> extractCustomerData() throws SQLException {
         ResultSet extractedData = ConnectionPool.createResultSet(selectCustomerData());
         return setUpCustomerList(extractedData);
     }
 
+//витягує id користувача з певним іменем з б\д
     public static int getUserIDByName(String customerName) throws SQLException {
         return ConnectionPool.createResultSet(selectUserByName(customerName)).getInt(1);
     }

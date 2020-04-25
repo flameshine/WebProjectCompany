@@ -2,9 +2,9 @@ package models;
 
 public class Customer {
 
-    private int customerID;
-    private String username;
-    private String password;
+    private final int customerID;
+    private final String username;
+    private final String password;
 
     public Customer(int customerID, String username, String password) {
         this.customerID = customerID;
@@ -23,4 +23,9 @@ public class Customer {
     public String getPassword() {
         return password;
     }
+
+//    надсилає сповіщення про змінення статусу замовлення
+//    public void sendNotification(String orderStatusMeaning) {
+//        System.out.println("Your order status was changed! Current status: " + orderStatusMeaning);
+//    }
 }

@@ -2,10 +2,13 @@ package database;
 
 import java.util.*;
 import java.sql.*;
+
 import models.*;
 import database.utils.*;
 
-public class OrderDatabase implements OrderObserver {
+//всі методи є тестовими і писались "на вскидку", так як далі ще буде робота з сервлетами і фронт-ендом.
+
+public class OrderDatabase {
 
     private final int NOT_CONFIRMED = 1;
 //    private final int CONFIRMED = 2;
@@ -13,27 +16,30 @@ public class OrderDatabase implements OrderObserver {
 //    private final int DONE = 4;
 //    private final int REJECTED = 5;
 
+//додає нове замовлення
     public void addNewOrder(String customerName, String orderName, int orderPrice) throws SQLException {
         int customerID = CustomerDatabase.getUserIDByName(customerName);
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(customerID, orderName, orderPrice, NOT_CONFIRMED));
     }
 
+//витягує всі замовлення певного користувача за іменем з б\д
     public void getCustomerOrders(String customerName) throws SQLException {
         int customerID = CustomerDatabase.getUserIDByName(customerName);
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(selectOrderDataByUserID(customerID));
     }
 
-    @Override
-    public void changeOrderStatus(String orderName, int statusID) throws SQLException {
-        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderName, statusID));
-        notifyObserver(orderName);
+//змінює статус замовлення
+    public void changeOrderStatus(int orderID, int statusID) throws SQLException {
+        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderID, statusID));
+//        notifyCustomer(orderID);
     }
 
-    @Override
-    public void notifyObserver(String orderName) throws SQLException {
-        extractOrderData().stream().filter(order -> order.getOrderName().equals(orderName)).forEach(Order::sendNotification);
-    }
+//надсилає сповіщення користувачу, статус замовлення якого змінився
+//    public void notifyCustomer(int orderID) throws SQLException {
+//
+//    }
 
+//витягує всі замовлення з б\д
     private List<Order> extractOrderData() throws SQLException {
         ResultSet extractedData = ConnectionPool.createResultSet(selectOrderData());
         return setUpOrderList(extractedData);
@@ -53,11 +59,11 @@ public class OrderDatabase implements OrderObserver {
     }
 
     private String selectOrderDataByUserID(int customerID) {
-        return "SELECT ITCompanyDataBase.orderTable.orderID, ITCompanyDataBase.userTable.userName, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.userTable ON (ITCompanyDataBase.userTable.userID = ITCompanyDataBase.orderTable.orderID) JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.userTable.userID = " + customerID;
+        return "SELECT ITCompanyDataBase.orderTable.orderID, ITCompanyDataBase.userTable.userName, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.userTable ON (ITCompanyDataBase.userTable.userID = ITCompanyDataBase.orderTable.clientID) JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.userTable.userID = " + customerID;
     }
 
-    private String updateOrderStatus(String orderName, int statusID) {
-        return "UPDATE ITCompanyDataBase.orderTable SET orderStatusID = " + statusID + " WHERE orderName = '" + orderName + "'";
+    private String updateOrderStatus(int orderID, int statusID) {
+        return "UPDATE ITCompanyDataBase.orderTable SET orderStatusID = " + statusID + " WHERE orderID = " + orderID;
     }
 
     private String selectOrderData() {
