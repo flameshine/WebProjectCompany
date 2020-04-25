@@ -3,14 +3,14 @@ package models;
 public class Order {
 
     private final int orderID;
-    private final String clientName;
+    private final String customerName;
     private final String orderName;
     private final int orderPrice;
     private final String orderStatusMeaning;
 
-    public Order(int orderID, String clientName, String orderName, int orderPrice, String orderStatusMeaning) {
+    public Order(int orderID, String customerName, String orderName, int orderPrice, String orderStatusMeaning) {
         this.orderID = orderID;
-        this.clientName = clientName;
+        this.customerName = customerName;
         this.orderName = orderName;
         this.orderPrice = orderPrice;
         this.orderStatusMeaning = orderStatusMeaning;
@@ -20,8 +20,8 @@ public class Order {
         return orderID;
     }
 
-    public String getClientName() {
-        return clientName;
+    public String getCustomerName() {
+        return customerName;
     }
 
     public String getOrderName() {
