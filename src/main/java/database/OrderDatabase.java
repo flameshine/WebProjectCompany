@@ -5,15 +5,13 @@ import java.sql.*;
 import models.*;
 import database.utils.*;
 
-//    зміна параметрів замовлення (наприклад, статусу) буде через сеттери об'єкта Order отриманого з extractOrderData() ->
-
-public class OrderDatabase {
+public class OrderDatabase implements OrderObserver {
 
     private final int NOT_CONFIRMED = 1;
-    private final int CONFIRMED = 2;
-    private final int BEING_DEVELOPED = 3;
-    private final int DONE = 4;
-    private final int REJECTED = 5;
+//    private final int CONFIRMED = 2;
+//    private final int BEING_DEVELOPED = 3;
+//    private final int DONE = 4;
+//    private final int REJECTED = 5;
 
     public void addNewOrder(String customerName, String orderName, int orderPrice) throws SQLException {
         int customerID = CustomerDatabase.getUserIDByName(customerName);
@@ -25,11 +23,18 @@ public class OrderDatabase {
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(selectOrderDataByUserID(customerID));
     }
 
+    @Override
     public void changeOrderStatus(String orderName, int statusID) throws SQLException {
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderName, statusID));
+        notifyObserver(orderName);
     }
 
-    public List<Order> extractOrderData() throws SQLException {
+    @Override
+    public void notifyObserver(String orderName) throws SQLException {
+        extractOrderData().stream().filter(order -> order.getOrderName().equals(orderName)).forEach(Order::sendNotification);
+    }
+
+    private List<Order> extractOrderData() throws SQLException {
         ResultSet extractedData = ConnectionPool.createResultSet(selectOrderData());
         return setUpOrderList(extractedData);
     }

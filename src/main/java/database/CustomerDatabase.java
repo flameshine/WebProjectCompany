@@ -5,8 +5,6 @@ import java.util.*;
 import database.utils.*;
 import models.Customer;
 
-//    спробувати імплементувати Observer Pattern для сповіщення клєнта про змінення статусу замовлення ->
-
 public class CustomerDatabase {
 
     public void registerCustomer(String username, String password) throws SQLException {

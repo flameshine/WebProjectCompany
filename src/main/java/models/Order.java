@@ -1,6 +1,8 @@
 package models;
 
-public class Order {
+import database.ObservedOrder;
+
+public class Order implements ObservedOrder {
 
     private final int orderID;
     private final String customerName;
@@ -34,5 +36,11 @@ public class Order {
 
     public String getOrderStatusMeaning() {
         return orderStatusMeaning;
+    }
+
+    @Override
+    public void sendNotification() {
+        // temporary
+        System.out.println(customerName + "'s order status was changed! Current status: " + orderStatusMeaning);
     }
 }
