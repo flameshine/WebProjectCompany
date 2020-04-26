@@ -2,11 +2,10 @@ package database;
 
 import java.util.*;
 import java.sql.*;
-
-import models.*;
+import models.Order;
 import database.utils.*;
 
-//всі методи є тестовими і писались "на вскидку", так як далі ще буде робота з сервлетами і фронт-ендом.
+//всі методи є тестовими і писались "навскидку", так як далі ще буде робота з сервлетами і фронт-ендом.
 
 public class OrderDatabase {
 
@@ -18,26 +17,23 @@ public class OrderDatabase {
 
 //додає нове замовлення
     public void addNewOrder(String customerName, String orderName, int orderPrice) throws SQLException {
-        int customerID = CustomerDatabase.getUserIDByName(customerName);
+        int customerID = CustomerDatabase.getCustomerIDByName(customerName);
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(customerID, orderName, orderPrice, NOT_CONFIRMED));
     }
 
 //витягує всі замовлення певного користувача за іменем з б\д
     public void getCustomerOrders(String customerName) throws SQLException {
-        int customerID = CustomerDatabase.getUserIDByName(customerName);
+        int customerID = CustomerDatabase.getCustomerIDByName(customerName);
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(selectOrderDataByUserID(customerID));
     }
 
-//змінює статус замовлення
+//змінює статус замовлення та повідомляє користувача
     public void changeOrderStatus(int orderID, int statusID) throws SQLException {
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderID, statusID));
-//        notifyCustomer(orderID);
+        ResultSet extractedStatusMeaning = ConnectionPool.createResultSet(selectOrderStatusMeaningByOrderID(orderID));
+        if(extractedStatusMeaning.next())
+            CustomerDatabase.notifyCustomer(orderID, extractedStatusMeaning.getString(1));
     }
-
-//надсилає сповіщення користувачу, статус замовлення якого змінився
-//    public void notifyCustomer(int orderID) throws SQLException {
-//
-//    }
 
 //витягує всі замовлення з б\д
     private List<Order> extractOrderData() throws SQLException {
@@ -58,12 +54,16 @@ public class OrderDatabase {
         return "INSERT INTO ITCompanyDataBase.orderTable (clientID, orderName, orderPrice, orderStatusID) VALUES (" + customerID + ", '" + orderName + "', " + orderPrice + ", " + statusID + ")";
     }
 
+    private String updateOrderStatus(int orderID, int statusID) {
+        return "UPDATE ITCompanyDataBase.orderTable SET orderStatusID = " + statusID + " WHERE orderID = " + orderID;
+    }
+
     private String selectOrderDataByUserID(int customerID) {
         return "SELECT ITCompanyDataBase.orderTable.orderID, ITCompanyDataBase.userTable.userName, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.userTable ON (ITCompanyDataBase.userTable.userID = ITCompanyDataBase.orderTable.clientID) JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.userTable.userID = " + customerID;
     }
 
-    private String updateOrderStatus(int orderID, int statusID) {
-        return "UPDATE ITCompanyDataBase.orderTable SET orderStatusID = " + statusID + " WHERE orderID = " + orderID;
+    private String selectOrderStatusMeaningByOrderID(int orderID) {
+        return "SELECT ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.userTable ON (ITCompanyDataBase.userTable.userID = ITCompanyDataBase.orderTable.clientID) JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.orderTable.orderID = " + orderID;
     }
 
     private String selectOrderData() {

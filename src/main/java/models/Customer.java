@@ -24,8 +24,8 @@ public class Customer {
         return password;
     }
 
-//    надсилає сповіщення про змінення статусу замовлення
-//    public void sendNotification(String orderStatusMeaning) {
-//        System.out.println("Your order status was changed! Current status: " + orderStatusMeaning);
-//    }
+//надсилає сповіщення про змінення статусу замовлення
+    public void sendNotification(String orderStatusMeaning) {
+        System.out.println(username + "'s order status was changed! Current status: " + orderStatusMeaning);
+    }
 }
