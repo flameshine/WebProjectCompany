@@ -5,8 +5,6 @@ import java.sql.*;
 import models.Order;
 import database.utils.*;
 
-//всі методи є тестовими і писались "навскидку", так як далі ще буде робота з сервлетами і фронт-ендом.
-
 public class OrderDatabase {
 
     private final int NOT_CONFIRMED = 1;
@@ -15,19 +13,16 @@ public class OrderDatabase {
 //    private final int DONE = 4;
 //    private final int REJECTED = 5;
 
-//додає нове замовлення
     public void addNewOrder(String customerName, String orderName, int orderPrice) throws SQLException {
         int customerID = CustomerDatabase.getCustomerIDByName(customerName);
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(customerID, orderName, orderPrice, NOT_CONFIRMED));
     }
 
-//витягує всі замовлення певного користувача за іменем з б\д
     public void getCustomerOrders(String customerName) throws SQLException {
         int customerID = CustomerDatabase.getCustomerIDByName(customerName);
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(selectOrderDataByUserID(customerID));
     }
 
-//змінює статус замовлення та повідомляє користувача
     public void changeOrderStatus(int orderID, int statusID) throws SQLException {
         Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderID, statusID));
         ResultSet extractedStatusMeaning = ConnectionPool.createResultSet(selectOrderStatusMeaningByOrderID(orderID));
@@ -35,7 +30,6 @@ public class OrderDatabase {
             CustomerDatabase.notifyCustomer(orderID, extractedStatusMeaning.getString(1));
     }
 
-//витягує всі замовлення з б\д
     private List<Order> extractOrderData() throws SQLException {
         ResultSet extractedData = ConnectionPool.createResultSet(selectOrderData());
         return setUpOrderList(extractedData);

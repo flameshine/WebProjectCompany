@@ -2,17 +2,23 @@ package database.utils;
 
 import java.sql.*;
 import java.util.Objects;
-import java.beans.PropertyVetoException;
 
 public class ConnectionPool {
 
+    private static final String
+            DRIVER = "org.gjt.mm.mysql.Driver",
+            URL = "jdbc:mysql://localhost/ITCompanyDataBase?&serverTimezone=UTC",
+            USER = "root",
+            PASSWORD = "toortoor";
+
     public static Connection getConnection() {
         try {
-            return DBSetUpUtil.setUpService().getConnection();
-        } catch (PropertyVetoException | SQLException exception) {
+            Class.forName(DRIVER);
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (ClassNotFoundException | SQLException exception) {
             exception.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public static ResultSet createResultSet(String source) throws SQLException {
