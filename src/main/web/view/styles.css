@@ -20,7 +20,7 @@ body {
 }
 
 .box h1 {
-    color: white;
+    color: whitesmoke;
     font-weight: 500;
 }
 
@@ -33,7 +33,7 @@ body {
     padding: 15px 10px;
     width: 235px;
     outline: none;
-    color: white;
+    color: whitesmoke;
     border-radius: 25px;
     transition: 0.25s;
 }
@@ -53,7 +53,7 @@ body {
     text-align: center;
     padding: 15px 40px;
     outline: none;
-    color: white;
+    color: whitesmoke;
     border-radius: 25px;
     transition: 0.25s;
     cursor: pointer;
@@ -63,10 +63,30 @@ body {
     background: #2ecc71;
 }
 
-.box a {
-    color: white;
+.box .create {
+    color: whitesmoke;
     margin: 20px auto;
     font-size: medium;
     vertical-align: -75px;
     cursor: pointer;
+}
+
+.box .enter {
+    margin: 20px auto;
+    font-size: medium;
+    vertical-align: -25px;
+    cursor: pointer;
+}
+
+.box a.text:hover {
+    color: #2ecc71;
+}
+
+.box a.text:active {
+    color: #3498db;
+}
+
+.box .text p {
+    color: whitesmoke;
+    text-decoration-color: whitesmoke;
 }

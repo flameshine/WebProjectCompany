@@ -13,6 +13,13 @@
     <input type="password" name="firstPasswordAttempt" placeholder="Password">
     <input type="password" name="secondPasswordAttempt" placeholder="Confirm Password">
     <input type="submit" name="submit" placeholder="Login">
+    <div class="enter">
+        <a href="http://localhost:8080/WebProjectITCompany/login">
+            <div class="text">
+                <p>Already have an account?</p>
+            </div>
+        </a>
+    </div>
 </form>
 </body>
 </html>

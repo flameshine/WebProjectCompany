@@ -12,7 +12,13 @@
     <input type="text" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Password">
     <input type="submit" name="submit" placeholder="Login">
-    <a href="http://localhost:8080/WebProjectITCompany/register">Don't have an account?</a>
+    <div class="create">
+        <a href="http://localhost:8080/WebProjectITCompany/register">
+            <div class="text">
+                <p>Don't have an account?</p>
+            </div>
+        </a>
+    </div>
 </form>
 </body>
 </html>
