@@ -21,7 +21,7 @@ body {
 
 .box h1 {
     color: whitesmoke;
-    font-weight: 500;
+    margin: 20px auto;
 }
 
 .box input[type="text"], .box input[type="password"] {
@@ -63,30 +63,10 @@ body {
     background: #2ecc71;
 }
 
-.box .create {
+.box .login {
+    margin-top: 87px;
+}
+
+.box a {
     color: whitesmoke;
-    margin: 20px auto;
-    font-size: medium;
-    vertical-align: -75px;
-    cursor: pointer;
-}
-
-.box .enter {
-    margin: 20px auto;
-    font-size: medium;
-    vertical-align: -25px;
-    cursor: pointer;
-}
-
-.box a.text:hover {
-    color: #2ecc71;
-}
-
-.box a.text:active {
-    color: #3498db;
-}
-
-.box .text p {
-    color: whitesmoke;
-    text-decoration-color: whitesmoke;
 }

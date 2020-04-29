@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<link href="view/styles.css" rel="stylesheet" type="text/css">
+<link href="view/styles/styles.css" rel="stylesheet" type="text/css">
 
 <html>
 <head>

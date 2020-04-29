@@ -31,14 +31,19 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("username", username);
             session.setAttribute("password", password);
             session.setAttribute("role", role);
-            resp.sendRedirect("http://localhost:8080/WebProjectITCompany/home");
+            moveToMenu(req, resp, role);
         }
         else
             resp.getWriter().write(notifyIncorrectLoginInput());
     }
 
-    private boolean isAdmin(String username) {
-        return userDatabase.getUserByLoginData(username).getUserRole() == User.ROLE.ADMIN;
+    private void moveToMenu(final HttpServletRequest req, final HttpServletResponse resp, final User.ROLE role) throws ServletException, IOException {
+        if (role.equals(User.ROLE.ADMIN))
+            resp.sendRedirect(req.getContextPath() + "/admin");
+        else if (role.equals(User.ROLE.WORKER))
+            resp.sendRedirect(req.getContextPath() + "/worker");
+        else
+            resp.sendRedirect(req.getContextPath() + "/user");
     }
 
     private boolean checkLoginData(final String username, final String password) {

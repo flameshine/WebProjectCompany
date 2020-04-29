@@ -25,9 +25,9 @@ public class RegisterServlet extends HttpServlet {
 
         if (checkUsername(username))
             resp.getWriter().write(notifyExistingUsername());
-        if (firstPasswordAttempt.equals(secondPasswordAttempt)) {
+        else if (firstPasswordAttempt.equals(secondPasswordAttempt)) {
             registerUser(username, firstPasswordAttempt);
-            resp.sendRedirect("http://localhost:8080/WebProjectITCompany/login");
+            resp.sendRedirect(req.getContextPath() + "/login");
         }
         else
             resp.getWriter().write(notifyIncorrectPasswordConfirmation());

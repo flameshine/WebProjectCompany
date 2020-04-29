@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<link href="view/styles.css" rel="stylesheet" type="text/css">
+<link href="view/styles/styles.css" rel="stylesheet" type="text/css">
 
 <html>
 <head>
@@ -13,13 +13,9 @@
     <input type="password" name="firstPasswordAttempt" placeholder="Password">
     <input type="password" name="secondPasswordAttempt" placeholder="Confirm Password">
     <input type="submit" name="submit" placeholder="Login">
-    <div class="enter">
-        <a href="http://localhost:8080/WebProjectITCompany/login">
-            <div class="text">
-                <p>Already have an account?</p>
-            </div>
-        </a>
-    </div>
+    <a href="http://localhost:8080/WebProjectITCompany/login">
+        <p>Already have an account?</p>
+    </a>
 </form>
 </body>
 </html>
