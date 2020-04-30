@@ -38,8 +38,8 @@ public class OrderDatabase {
             return setUpOrderList(extractedData);
         } catch (SQLException exception) {
             exception.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     private List<Order> setUpOrderList(ResultSet extractedData) throws SQLException {

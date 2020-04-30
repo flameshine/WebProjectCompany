@@ -9,9 +9,6 @@ public class UserDatabase {
 
     private final List<User> users = extractUserData();
 
-    private static final String ADMIN_ACCOUNT = "admin";
-    private static final String WORKER_ACCOUNT = "worker";
-
     public void registerUser(final String username, final String password) throws SQLException {
         if (!RegisterParser.parseMatches(username))
             Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertUserLoginData(username, password));
@@ -26,8 +23,8 @@ public class UserDatabase {
         return resultUser;
     }
 
-    public static int getUserIDByName(final String userName) throws SQLException {
-        return Objects.requireNonNull(ConnectionPool.createResultSet(selectUserByName(userName))).getInt(1);
+    public static int getUserIDByName(final String username) throws SQLException {
+        return Objects.requireNonNull(ConnectionPool.createResultSet(selectUserByName(username))).getInt(1);
     }
 
     public static void notifyUser(final int orderID, final String orderStatusMeaning) throws SQLException {
@@ -44,25 +41,19 @@ public class UserDatabase {
             return setUpUserList(extractedData);
         } catch (SQLException exception) {
             exception.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     private static List<User> setUpUserList(ResultSet extractedData) throws SQLException {
         List<User> users = new ArrayList<>();
-        while (extractedData.next()) {
-            if (extractedData.getString(2).equals(ADMIN_ACCOUNT))
-                users.add(setUpUser(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), User.ROLE.ADMIN));
-            else if (extractedData.getString(2).equals(WORKER_ACCOUNT))
-                users.add(setUpUser(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), User.ROLE.WORKER));
-            else
-                users.add(setUpUser(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), User.ROLE.USER));
-        }
+        while (extractedData.next())
+            users.add(setUpUser(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3)));
         return users;
     }
 
-    private static User setUpUser(int userID, String username, String password, User.ROLE userRole) {
-        return new User(userID, username, password, userRole);
+    private static User setUpUser(int userID, String username, String password) {
+        return new User(userID, username, password);
     }
 
     private String insertUserLoginData(final String username, final String password) {

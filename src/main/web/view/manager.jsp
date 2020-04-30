@@ -7,6 +7,6 @@
     <title>Home</title>
 </head>
 <body>
-<h1>You're admin!</h1>
+<h1>You're manager!</h1>
 </body>
 </html>

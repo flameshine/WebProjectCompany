@@ -4,13 +4,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import database.UserDatabase;
 import database.utils.LoginValidator;
-import models.User;
 
 public class LoginServlet extends HttpServlet {
 
-    private final UserDatabase userDatabase = new UserDatabase();
+    private final String MANAGER_USERNAME = "manager";
+    private final String WORKER_USERNAME = "worker";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,22 +24,19 @@ public class LoginServlet extends HttpServlet {
         final String username = req.getParameter("username");
         final String password = req.getParameter("password");
 
-        final User.ROLE role = userDatabase.getUserByLoginData(username).getUserRole();
-
         if (checkLoginData(username, password)) {
             session.setAttribute("username", username);
             session.setAttribute("password", password);
-            session.setAttribute("role", role);
-            moveToMenu(req, resp, role);
+            moveToMenu(req, resp);
         }
         else
             resp.getWriter().write(notifyIncorrectLoginInput());
     }
 
-    private void moveToMenu(final HttpServletRequest req, final HttpServletResponse resp, final User.ROLE role) throws ServletException, IOException {
-        if (role.equals(User.ROLE.ADMIN))
-            resp.sendRedirect(req.getContextPath() + "/admin");
-        else if (role.equals(User.ROLE.WORKER))
+    private void moveToMenu(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
+        if (req.getSession().getAttribute("username").equals(MANAGER_USERNAME))
+            resp.sendRedirect(req.getContextPath() + "/manager");
+        else if (req.getSession().getAttribute("username").equals(WORKER_USERNAME))
             resp.sendRedirect(req.getContextPath() + "/worker");
         else
             resp.sendRedirect(req.getContextPath() + "/user");
