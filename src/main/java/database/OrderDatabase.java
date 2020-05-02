@@ -13,11 +13,18 @@ public class OrderDatabase {
 //    private final int DONE = 4;
 //    private final int REJECTED = 5;
 
-    private final List<Order> orders = extractOrderData();
+    public void addNewOrder(final String username, final String orderName, final int priceOffer) throws SQLException {
+        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(username, orderName, priceOffer, NOT_CONFIRMED));
+    }
 
-    public void addNewOrder(final String username, final String orderName, final int orderPrice) throws SQLException {
-        int userID = UserDatabase.getUserIDByName(username);
-        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(userID, orderName, orderPrice, NOT_CONFIRMED));
+    public List<Order> extractOrderData() {
+        try {
+            ResultSet extractedData = ConnectionPool.createResultSet(selectOrderData());
+            return setUpOrderList(extractedData);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
     public void changeOrderStatus(final int orderID, final int statusID) throws SQLException {
@@ -27,47 +34,38 @@ public class OrderDatabase {
             UserDatabase.notifyUser(orderID, extractedStatusMeaning.getString(1));
     }
 
-    public void getUserOrders(final String username) throws SQLException {
-        int userID = UserDatabase.getUserIDByName(username);
-        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(selectOrderDataByUserID(userID));
-    }
-
-    private List<Order> extractOrderData() {
-        try {
-            ResultSet extractedData = ConnectionPool.createResultSet(selectOrderData());
-            return setUpOrderList(extractedData);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            return null;
-        }
+    public List<Order> extractUserOrders(final String username) throws SQLException {
+        List<Order> userOrders = new ArrayList<>();
+        ResultSet extractedData = ConnectionPool.createResultSet(selectOrderDataByUsername(username));
+        while(extractedData.next())
+            userOrders.add(new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getInt(4), extractedData.getString(5)));
+        return userOrders;
     }
 
     private List<Order> setUpOrderList(ResultSet extractedData) throws SQLException {
         List<Order> orders = new ArrayList<>();
-        while (extractedData.next()) {
-            Order order = new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getInt(4), extractedData.getString(5));
-            orders.add(order);
-        }
+        while (extractedData.next())
+            orders.add(new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getInt(4), extractedData.getString(5)));
         return orders;
     }
 
-    private String insertNewOrder(final int userID, final String orderName, final int orderPrice, final int statusID) {
-        return "INSERT INTO ITCompanyDataBase.orderTable (clientID, orderName, orderPrice, orderStatusID) VALUES (" + userID + ", '" + orderName + "', " + orderPrice + ", " + statusID + ")";
+    private String insertNewOrder(final String username, final String orderName, final int priceOffer, final int statusID) {
+        return "INSERT INTO ITCompanyDataBase.orderTable (username, orderName, priceOffer, orderStatusID) VALUES ('" + username + "', '" + orderName + "', " + priceOffer + ", " + statusID + ")";
     }
 
     private String updateOrderStatus(final int orderID, final int statusID) {
         return "UPDATE ITCompanyDataBase.orderTable SET orderStatusID = " + statusID + " WHERE orderID = " + orderID;
     }
 
-    private String selectOrderDataByUserID(final int userID) {
-        return "SELECT ITCompanyDataBase.orderTable.orderID, ITCompanyDataBase.userTable.userName, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.userTable ON (ITCompanyDataBase.userTable.userID = ITCompanyDataBase.orderTable.clientID) JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.userTable.userID = " + userID;
+    private String selectOrderDataByUsername(final String username) {
+        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, priceOffer, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE username = '" + username + "'";
     }
 
     private String selectOrderStatusMeaningByOrderID(final int orderID) {
-        return "SELECT ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.userTable ON (ITCompanyDataBase.userTable.userID = ITCompanyDataBase.orderTable.clientID) JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.orderTable.orderID = " + orderID;
+        return "SELECT ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.orderTable.orderID = " + orderID;
     }
 
     private String selectOrderData() {
-        return "SELECT ITCompanyDataBase.orderTable.orderID, ITCompanyDataBase.userTable.userName, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.userTable ON (ITCompanyDataBase.userTable.userID = ITCompanyDataBase.orderTable.clientID) JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID)";
+        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, priceOffer, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID)";
     }
 }

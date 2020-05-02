@@ -7,6 +7,10 @@
     <title>Error</title>
 </head>
 <body>
-<h1>Error!</h1>
+
+<div class="error">
+    <h1>Oops! Something wrong!</h1>
+</div>
+
 </body>
 </html>

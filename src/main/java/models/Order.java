@@ -5,14 +5,14 @@ public class Order {
     private int orderID;
     private String username;
     private String orderName;
-    private int orderPrice;
+    private int priceOffer;
     private String orderStatusMeaning;
 
-    public Order(int orderID, String username, String orderName, int orderPrice, String orderStatusMeaning) {
+    public Order(int orderID, String username, String orderName, int priceOffer, String orderStatusMeaning) {
         this.orderID = orderID;
         this.username = username;
         this.orderName = orderName;
-        this.orderPrice = orderPrice;
+        this.priceOffer = priceOffer;
         this.orderStatusMeaning = orderStatusMeaning;
     }
 
@@ -40,12 +40,12 @@ public class Order {
         return orderName;
     }
 
-    public void setOrderPrice(int orderPrice) {
-        this.orderPrice = orderPrice;
+    public void setPriceOffer(int priceOffer) {
+        this.priceOffer = priceOffer;
     }
 
-    public int getOrderPrice() {
-        return orderPrice;
+    public int getPriceOffer() {
+        return priceOffer;
     }
 
     public void setOrderStatusMeaning(String orderStatusMeaning) {

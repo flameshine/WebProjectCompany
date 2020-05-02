@@ -5,36 +5,56 @@ body {
     background: #34495e;
 }
 
+h1 {
+    margin: 20px auto;
+    color: whitesmoke;
+}
+
+input[type="submit"] {
+    width: 150px;
+    margin: 20px auto;
+    padding: 15px 40px;
+    display: block;
+    text-align: center;
+    font-size: small;
+    border-radius: 25px;
+    border: 2px solid #2ecc71;
+    color: whitesmoke;
+    background: none;
+    outline: none;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background: #2ecc71;
+}
+
 .box {
     width: 400px;
     height: 350px;
-    padding: 70px;
     position: absolute;
     top: 50%;
     left: 50%;
+    padding: 70px;
     transform: translate(-50%, -50%);
+    text-align: center;
     border-radius: 25px;
     border: 2px solid #3498db;
     background: #191919;
-    text-align: center;
-}
-
-.box h1 {
-    color: whitesmoke;
-    margin: 20px auto;
 }
 
 .box input[type="text"], .box input[type="password"] {
-    border: 2px solid #3498db;
-    background: none;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    padding: 15px 10px;
     width: 235px;
-    outline: none;
-    color: whitesmoke;
+    margin: 20px auto;
+    padding: 15px 10px;
+    display: block;
+    text-align: center;
     border-radius: 25px;
+    border: 2px solid #3498db;
+    color: whitesmoke;
+    background: none;
+    outline: none;
     transition: 0.25s;
 }
 
@@ -43,30 +63,97 @@ body {
     border-color: #2ecc71;
 }
 
-.box input[type="submit"] {
-    width: 150px;
-    border: 2px solid #2ecc71;
-    background: none;
-    font-size: small;
-    display: block;
-    margin: 20px auto;
-    text-align: center;
-    padding: 15px 40px;
-    outline: none;
-    color: whitesmoke;
-    border-radius: 25px;
-    transition: 0.25s;
-    cursor: pointer;
-}
-
-.box input[type="submit"]:hover {
-    background: #2ecc71;
-}
-
 .box .login {
     margin-top: 87px;
 }
 
 .box a {
+    color: whitesmoke;
+}
+
+.confirm_box h1 {
+    margin: -55px auto 20px;
+    color: whitesmoke;
+}
+
+.confirm_box {
+    width: 650px;
+    height: 75px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 70px;
+    text-align: center;
+    border-radius: 35px;
+    border: 2px solid #3498db;
+    background: #191919;
+}
+
+.confirm_box input[type="text"], .confirm_box input[type="password"] {
+    width: 235px;
+    margin: 5px auto;
+    padding: 15px 20px;
+    text-align: center;
+    color: whitesmoke;
+    border-radius: 25px;
+    border: 2px solid #3498db;
+    background: none;
+    outline: none;
+    transition: 0.25s;
+}
+
+.orders h1 {
+    width: 100%;
+    top: 50%;
+    position: absolute;
+    margin-top: -200px;
+    text-align: center;
+    font-size: 35px;
+    color: whitesmoke;
+}
+
+.orders table {
+    width: 750px;
+    top: 50%;
+    margin: 275px auto;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 25px;
+    border-collapse: collapse;
+    background: #191919;
+}
+
+.orders tr {
+    padding: 10px 15px;
+    color: #2ecc71;
+    border-top: 2px solid #3498db;
+    border-bottom: 2px solid #3498db;
+    border-right: 2px solid #3498db;
+    border-left: 2px solid #3498db;
+}
+
+.orders td {
+    padding: 10px 15px;
+    color: #3498db;
+    border-top: 2px solid #3498db;
+    border-bottom: 2px solid #3498db;
+    border-right: 2px solid #3498db;
+    border-left: 2px solid #3498db;
+}
+
+.orders tr:hover td {
+    color: #2ecc71;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.error {
+    width: 100%;
+    top: 50%;
+    position: absolute;
+    margin-top: -100px;
+    text-align: center;
+    font-size: 30px;
     color: whitesmoke;
 }

@@ -1,12 +1,10 @@
 package servlets.filters;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 
-public class AuthenticationFilter implements Filter {
+public class UserAuthenticationFilter implements Filter {
 
     private FilterConfig filterConfig;
 
@@ -25,14 +23,11 @@ public class AuthenticationFilter implements Filter {
 
             final HttpSession session = req.getSession();
 
-            if (session == null || session.getAttribute("username") == null)
+            if (session == null || session.getAttribute("username") == null || session.getAttribute("password") == null)
                 resp.sendRedirect(req.getContextPath() + "/login");
-            else {
+            else
                 filterChain.doFilter(servletRequest, resp);
-                resp.sendRedirect(req.getContextPath() + "/distributor");
-            }
         }
-
     }
 
     @Override

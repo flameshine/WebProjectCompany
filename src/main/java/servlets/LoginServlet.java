@@ -8,9 +8,6 @@ import database.utils.LoginValidator;
 
 public class LoginServlet extends HttpServlet {
 
-    private final String MANAGER_USERNAME = "manager";
-    private final String WORKER_USERNAME = "worker";
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("view/login.jsp").forward(req, resp);
@@ -34,9 +31,9 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void moveToMenu(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
-        if (req.getSession().getAttribute("username").equals(MANAGER_USERNAME))
+        if (req.getParameter("username").equals("manager"))
             resp.sendRedirect(req.getContextPath() + "/manager");
-        else if (req.getSession().getAttribute("username").equals(WORKER_USERNAME))
+        else if (req.getParameter("username").equals("worker"))
             resp.sendRedirect(req.getContextPath() + "/worker");
         else
             resp.sendRedirect(req.getContextPath() + "/user");

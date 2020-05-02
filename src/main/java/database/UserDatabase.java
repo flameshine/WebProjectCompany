@@ -7,31 +7,16 @@ import models.User;
 
 public class UserDatabase {
 
-    private final List<User> users = extractUserData();
-
     public void registerUser(final String username, final String password) throws SQLException {
         if (!RegisterParser.parseMatches(username))
             Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertUserLoginData(username, password));
     }
 
-    public User getUserByLoginData(final String username) {
-        User resultUser = new User();
-        for (User user : users) {
-            if (user.getUsername().equals(username))
-                resultUser = user;
-        }
-        return resultUser;
-    }
-
-    public static int getUserIDByName(final String username) throws SQLException {
-        return Objects.requireNonNull(ConnectionPool.createResultSet(selectUserByName(username))).getInt(1);
-    }
-
     public static void notifyUser(final int orderID, final String orderStatusMeaning) throws SQLException {
-        ResultSet extractedUserID = ConnectionPool.createResultSet(selectUserIDByOrderID(orderID));
-        if (extractedUserID.next()) {
-            int userID = extractedUserID.getInt(1);
-            setUpUserList(Objects.requireNonNull(ConnectionPool.createResultSet(selectUserData()))).stream().filter(user -> user.getUserID() == userID).forEach(user -> user.sendNotification(orderStatusMeaning));
+        ResultSet extractedUsername = ConnectionPool.createResultSet(selectUsernameByOrderID(orderID));
+        if (extractedUsername.next()) {
+            String username = extractedUsername.getString(1);
+            setUpUserList(Objects.requireNonNull(ConnectionPool.createResultSet(selectUserData()))).stream().filter(user -> user.getUsername().equals(username)).forEach(user -> user.sendNotification(orderStatusMeaning));
         }
     }
 
@@ -41,7 +26,7 @@ public class UserDatabase {
             return setUpUserList(extractedData);
         } catch (SQLException exception) {
             exception.printStackTrace();
-            return null;
+            throw new RuntimeException();
         }
     }
 
@@ -60,8 +45,8 @@ public class UserDatabase {
         return "INSERT INTO ITCompanyDataBase.userTable (userName, userPassword) VALUES ('" + username + "', '" + password + "')";
     }
 
-    private static String selectUserIDByOrderID(final int orderID) {
-        return "SELECT clientID FROM ITCompanyDataBase.orderTable WHERE ITCompanyDataBase.orderTable.orderID = " + orderID;
+    private static String selectUsernameByOrderID(final int orderID) {
+        return "SELECT username FROM ITCompanyDataBase.orderTable WHERE ITCompanyDataBase.orderTable.orderID = " + orderID;
     }
 
     private static String selectUserByName(final String username) {

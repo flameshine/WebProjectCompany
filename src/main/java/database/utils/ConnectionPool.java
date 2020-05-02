@@ -17,7 +17,7 @@ public class ConnectionPool {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (ClassNotFoundException | SQLException exception) {
             exception.printStackTrace();
-            return null;
+            throw new RuntimeException();
         }
     }
 

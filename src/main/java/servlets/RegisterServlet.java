@@ -38,8 +38,8 @@ public class RegisterServlet extends HttpServlet {
             return RegisterParser.parseMatches(username);
         } catch (SQLException exception) {
             exception.printStackTrace();
+            throw new RuntimeException();
         }
-        return false;
     }
 
     private void registerUser(final String username, final String password) {

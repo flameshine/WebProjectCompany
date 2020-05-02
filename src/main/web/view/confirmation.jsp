@@ -7,12 +7,13 @@
     <title>Confirmation</title>
 </head>
 <body>
-<form action="j_security_check" method="post" class="form-group">
-    <label for="usr">Login:</label>
-    <input type="text" class="form-control" name="j_username">
-    <label for="usr">Password:</label>
-    <input type="password" class="form-control" name="j_password">
-    <input type="submit" value="submit" class="btn-reg"/>
+
+<form class="confirm_box" action="j_security_check" method="post">
+    <h1>Confirmation</h1>
+    <input type="text" name="j_username" placeholder="Username">
+    <input type="password" name="j_password" placeholder="Password">
+    <input type="submit" name="submit" placeholder="Login">
 </form>
+
 </body>
 </html>
