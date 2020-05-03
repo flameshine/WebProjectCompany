@@ -2,19 +2,13 @@ package database;
 
 import java.util.*;
 import java.sql.*;
-import models.Order;
 import database.utils.*;
+import models.Order;
 
 public class OrderDatabase {
 
-    private final int NOT_CONFIRMED = 1;
-//    private final int CONFIRMED = 2;
-//    private final int BEING_DEVELOPED = 3;
-//    private final int DONE = 4;
-//    private final int REJECTED = 5;
-
     public void addNewOrder(final String username, final String orderName, final int priceOffer) throws SQLException {
-        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(username, orderName, priceOffer, NOT_CONFIRMED));
+        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(username, orderName, priceOffer, 1));
     }
 
     public List<Order> extractOrderData() {
@@ -27,11 +21,16 @@ public class OrderDatabase {
         }
     }
 
-    public void changeOrderStatus(final int orderID, final int statusID) throws SQLException {
-        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderID, statusID));
-        ResultSet extractedStatusMeaning = ConnectionPool.createResultSet(selectOrderStatusMeaningByOrderID(orderID));
-        if (extractedStatusMeaning.next())
-            UserDatabase.notifyUser(orderID, extractedStatusMeaning.getString(1));
+    public void changeOrderStatus(final int orderID, final int statusID) {
+        try {
+            Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderID, statusID));
+            ResultSet extractedStatusMeaning = ConnectionPool.createResultSet(selectOrderStatusMeaningByOrderID(orderID));
+            if (extractedStatusMeaning.next())
+                UserDatabase.notifyUser(orderID, extractedStatusMeaning.getString(1));
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
     public List<Order> extractUserOrders(final String username) throws SQLException {

@@ -9,7 +9,7 @@
 <body>
 
 <form class="box" action="${pageContext.request.contextPath}/user" method="post">
-    <h1>Create a new order:</h1>
+    <h1>Create a new order</h1>
     <input type="text" name="orderName" placeholder="Order Name">
     <input type="text" name="priceOffer" placeholder="Price Offer">
     <input type="submit" name="submit">

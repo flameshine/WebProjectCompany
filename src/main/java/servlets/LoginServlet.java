@@ -4,7 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
-import database.utils.LoginValidator;
+import database.utils.*;
 
 public class LoginServlet extends HttpServlet {
 
@@ -14,7 +14,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         final HttpSession session = req.getSession();
 
@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
             resp.getWriter().write(notifyIncorrectLoginInput());
     }
 
-    private void moveToMenu(final HttpServletRequest req, final HttpServletResponse resp) throws IOException {
+    private void moveToMenu(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getParameter("username").equals("manager"))
             resp.sendRedirect(req.getContextPath() + "/manager");
         else if (req.getParameter("username").equals("worker"))

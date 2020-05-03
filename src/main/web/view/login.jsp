@@ -15,7 +15,7 @@
     <input type="submit" name="submit">
     <a href="http://localhost:8080/WebProjectITCompany/register">
         <div class="login">
-        <p>Don't have an account?</p>
+            <p>Don't have an account?</p>
         </div>
     </a>
 </form>

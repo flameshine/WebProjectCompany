@@ -4,8 +4,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import database.utils.*;
 import database.UserDatabase;
-import database.utils.RegisterParser;
 
 public class RegisterServlet extends HttpServlet {
 
@@ -17,7 +17,7 @@ public class RegisterServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         final String username = req.getParameter("username");
         final String firstPasswordAttempt = req.getParameter("firstPasswordAttempt");
@@ -47,6 +47,7 @@ public class RegisterServlet extends HttpServlet {
             userDatabase.registerUser(username, password);
         } catch (SQLException exception) {
             exception.printStackTrace();
+            throw new RuntimeException();
         }
     }
 

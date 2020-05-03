@@ -17,7 +17,7 @@
         <filter-name>UserAuthenticationFilter</filter-name>
         <url-pattern>/user</url-pattern>
     </filter-mapping>
-    
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>ManagerServlet</web-resource-name>
@@ -27,11 +27,11 @@
             <role-name>manager</role-name>
         </auth-constraint>
     </security-constraint>
-    
+
     <security-role>
         <role-name>manager</role-name>
     </security-role>
-    
+
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>WorkerServlet</web-resource-name>
@@ -41,7 +41,7 @@
             <role-name>worker</role-name>
         </auth-constraint>
     </security-constraint>
-    
+
     <security-role>
         <role-name>worker</role-name>
     </security-role>

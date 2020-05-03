@@ -2,18 +2,18 @@ package database.utils;
 
 import java.sql.*;
 
-public class RegisterParser {
+public class OrderValidator {
 
-    public static boolean parseMatches(final String username) throws SQLException {
+    public static boolean validate(final int orderID) throws SQLException {
         ResultSet extractedData = ConnectionPool.createResultSet(extractLoginData());
         while (extractedData.next()) {
-            if (username.equals(extractedData.getString(1)))
+            if (orderID == extractedData.getInt(1))
                 return true;
         }
         return false;
     }
 
     private static String extractLoginData() {
-        return "SELECT userName FROM ITCompanyDataBase.userTable";
+        return "SELECT orderID FROM ITCompanyDataBase.orderTable";
     }
 }

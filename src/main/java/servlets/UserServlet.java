@@ -4,7 +4,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.SQLException;
-
 import database.OrderDatabase;
 
 public class UserServlet extends HttpServlet {
@@ -17,7 +16,7 @@ public class UserServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         final String orderName = req.getParameter("orderName");
         final int priceOffer = Integer.parseInt(req.getParameter("priceOffer"));
@@ -26,6 +25,7 @@ public class UserServlet extends HttpServlet {
         try {
             orderDatabase.addNewOrder(username, orderName, priceOffer);
         } catch (SQLException exception) {
+            exception.printStackTrace();
             throw new RuntimeException();
         }
 

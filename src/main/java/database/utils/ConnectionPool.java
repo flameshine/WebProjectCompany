@@ -21,7 +21,7 @@ public class ConnectionPool {
         }
     }
 
-    public static ResultSet createResultSet(String source) throws SQLException {
+    public static ResultSet createResultSet(final String source) throws SQLException {
         PreparedStatement extractedData = Objects.requireNonNull(getConnection()).prepareStatement(source);
         return extractedData.executeQuery();
     }
