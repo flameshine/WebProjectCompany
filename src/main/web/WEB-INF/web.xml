@@ -59,6 +59,11 @@
         <location>/view/error.jsp</location>
     </error-page>
 
+    <error-page>
+        <error-code>403</error-code>
+        <location>/view/error.jsp</location>
+    </error-page>
+
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>servlets.RegisterServlet</servlet-class>

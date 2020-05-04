@@ -27,7 +27,7 @@ public class RegisterServlet extends HttpServlet {
             resp.getWriter().write(notifyExistingUsername());
         else if (firstPasswordAttempt.equals(secondPasswordAttempt)) {
             registerUser(username, firstPasswordAttempt);
-            resp.sendRedirect(req.getContextPath() + "/login");
+            resp.getWriter().write(notifySuccess());
         }
         else
             resp.getWriter().write(notifyIncorrectPasswordConfirmation());
@@ -57,5 +57,9 @@ public class RegisterServlet extends HttpServlet {
 
     private String notifyIncorrectPasswordConfirmation() {
         return "<script>" + "alert('Incorrect password confirmation! Please, check your input.');" + "window.location = 'http://localhost:8080/WebProjectITCompany/register';" + "</script>";
+    }
+
+    private String notifySuccess() {
+        return "<script>" + "alert('Congratulations! You have been successfully registered!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/login';" + "</script>";
     }
 }
