@@ -11,7 +11,7 @@
 <body>
 
 <form class="orders" action="${pageContext.request.contextPath}/manager" method="post">
-    <h1>Orders</h1>
+    <h1>All Orders</h1>
     <table>
         <tr>
             <th>ID</th>
@@ -20,7 +20,7 @@
             <th>Offer</th>
             <th>Status</th>
         </tr>
-        <c:forEach var="order" items="${orders}">
+        <c:forEach var="order" items="${managerOrders}">
             <tr>
                 <td>${order.getOrderID()}</td>
                 <td>${order.getUsername()}</td>
@@ -48,7 +48,7 @@
             <input type="submit" name="submit">
         </div>
     </div>
-    <label for="popupWindow" class="popupShower">Change order status</label>
+    <label for="popupWindow" class="popupShower">Update order status</label>
 </form>
 
 </body>

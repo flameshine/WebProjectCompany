@@ -3,7 +3,6 @@ package servlets;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.SQLException;
 import database.utils.*;
 import database.UserDatabase;
 
@@ -23,32 +22,14 @@ public class RegisterServlet extends HttpServlet {
         final String firstPasswordAttempt = req.getParameter("firstPasswordAttempt");
         final String secondPasswordAttempt = req.getParameter("secondPasswordAttempt");
 
-        if (checkUsername(username))
+        if (RegisterParser.parseMatches(username))
             resp.getWriter().write(notifyExistingUsername());
         else if (firstPasswordAttempt.equals(secondPasswordAttempt)) {
-            registerUser(username, firstPasswordAttempt);
+            userDatabase.registerUser(username, firstPasswordAttempt);
             resp.getWriter().write(notifySuccess());
         }
         else
             resp.getWriter().write(notifyIncorrectPasswordConfirmation());
-    }
-
-    private boolean checkUsername(final String username) {
-        try {
-            return RegisterParser.parseMatches(username);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
-    private void registerUser(final String username, final String password) {
-        try {
-            userDatabase.registerUser(username, password);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            throw new RuntimeException();
-        }
     }
 
     private String notifyExistingUsername() {

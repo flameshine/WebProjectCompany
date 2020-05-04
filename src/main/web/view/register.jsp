@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form class="box" action="${pageContext.request.contextPath}/register" method="post">
+<form class="box" id="register" action="${pageContext.request.contextPath}/register" method="post">
     <h1>Create an account</h1>
     <input type="text" name="username" placeholder="Username">
     <input type="password" name="firstPasswordAttempt" placeholder="Password">

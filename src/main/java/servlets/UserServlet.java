@@ -3,12 +3,11 @@ package servlets;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.SQLException;
 import database.OrderDatabase;
 
 public class UserServlet extends HttpServlet {
 
-    final OrderDatabase orderDatabase = new OrderDatabase();
+    private final OrderDatabase orderDatabase = new OrderDatabase();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -17,18 +16,10 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-        final String orderName = req.getParameter("orderName");
-        final int priceOffer = Integer.parseInt(req.getParameter("priceOffer"));
         final String username = (String) req.getSession().getAttribute("username");
+        final String orderName = req.getParameter("orderName");
 
-        try {
-            orderDatabase.addNewOrder(username, orderName, priceOffer);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            throw new RuntimeException();
-        }
-
+        orderDatabase.addNewOrder(username, orderName);
         resp.getWriter().write(notifySuccess());
     }
 

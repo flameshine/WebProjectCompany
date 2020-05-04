@@ -7,9 +7,14 @@ import models.User;
 
 public class UserDatabase {
 
-    public void registerUser(final String username, final String password) throws SQLException {
-        if (!RegisterParser.parseMatches(username))
-            Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertUserLoginData(username, password));
+    public void registerUser(final String username, final String password) {
+        try {
+            if (!RegisterParser.parseMatches(username))
+                Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertUserLoginData(username, password));
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
     public static void notifyUser(final int orderID, final String orderStatusMeaning) throws SQLException {
@@ -21,20 +26,20 @@ public class UserDatabase {
     }
 
     private List<User> extractUserData() {
+        ResultSet extractedData = ConnectionPool.createResultSet(selectUserData());
+        return setUpUserList(extractedData);
+    }
+
+    private static List<User> setUpUserList(ResultSet extractedData) {
         try {
-            ResultSet extractedData = ConnectionPool.createResultSet(selectUserData());
-            return setUpUserList(extractedData);
+            List<User> users = new ArrayList<>();
+            while (extractedData.next())
+                users.add(new User(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3)));
+            return users;
         } catch (SQLException exception) {
             exception.printStackTrace();
             throw new RuntimeException();
         }
-    }
-
-    private static List<User> setUpUserList(ResultSet extractedData) throws SQLException {
-        List<User> users = new ArrayList<>();
-        while (extractedData.next())
-            users.add(new User(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3)));
-        return users;
     }
 
     private String insertUserLoginData(final String username, final String password) {

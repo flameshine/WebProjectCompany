@@ -3,7 +3,6 @@ package servlets;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.SQLException;
 import database.utils.*;
 import database.OrderDatabase;
 
@@ -12,12 +11,12 @@ public class ManagerServlet extends HttpServlet {
     private final int CONFIRMED = 2;
     private final int REJECTED = 5;
 
-    final OrderDatabase orderDatabase = new OrderDatabase();
+    private final OrderDatabase orderDatabase = new OrderDatabase();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
-        req.setAttribute("orders", orderDatabase.extractOrderData());
+        req.setAttribute("managerOrders", orderDatabase.extractManagerOrderData());
         req.getRequestDispatcher("view/roles/manager.jsp").forward(req, resp);
     }
 
@@ -27,25 +26,19 @@ public class ManagerServlet extends HttpServlet {
         final int orderID = Integer.parseInt(req.getParameter("orderID"));
         final int orderStatusID = Integer.parseInt(req.getParameter("orderStatusID"));
 
-        if (checkOrderID(orderID)) {
-            if (orderStatusID == CONFIRMED)
-                orderDatabase.changeOrderStatus(orderID, CONFIRMED);
-            else
-                orderDatabase.changeOrderStatus(orderID, REJECTED);
+        if (OrderValidator.validate(orderID)) {
+            updateOrderStatus(orderID, orderStatusID);
             resp.getWriter().write(notifySuccess());
         }
         else
             resp.getWriter().write(notifyNonexistentID());
     }
 
-    private boolean checkOrderID(final int orderID) {
-        try {
-            if (OrderValidator.validate(orderID))
-                return true;
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        return false;
+    private void updateOrderStatus(final int orderID, final int orderStatusID) {
+        if (orderStatusID == CONFIRMED)
+            orderDatabase.changeOrderStatus(orderID, CONFIRMED);
+        else if (orderStatusID == REJECTED)
+            orderDatabase.changeOrderStatus(orderID, REJECTED);
     }
 
     private String notifyNonexistentID() {

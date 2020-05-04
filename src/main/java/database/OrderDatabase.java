@@ -7,18 +7,25 @@ import models.Order;
 
 public class OrderDatabase {
 
-    public void addNewOrder(final String username, final String orderName, final int priceOffer) throws SQLException {
-        Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(username, orderName, priceOffer, 1));
-    }
+    private final int NOT_CONFIRMED = 1;
 
-    public List<Order> extractOrderData() {
+    public void addNewOrder(final String username, final String orderName) {
         try {
-            ResultSet extractedData = ConnectionPool.createResultSet(selectOrderData());
-            return setUpOrderList(extractedData);
+            Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(username, orderName, NOT_CONFIRMED));
         } catch (SQLException exception) {
             exception.printStackTrace();
             throw new RuntimeException();
         }
+    }
+
+    public List<Order> extractManagerOrderData() {
+        ResultSet extractedData = ConnectionPool.createResultSet(selectManagerOrderData());
+        return setUpOrderList(extractedData);
+    }
+
+    public List<Order> extractWorkerOrderData() {
+        ResultSet extractedData = ConnectionPool.createResultSet(selectWorkerOrders());
+        return setUpOrderList(extractedData);
     }
 
     public void changeOrderStatus(final int orderID, final int statusID) {
@@ -33,23 +40,25 @@ public class OrderDatabase {
         }
     }
 
-    public List<Order> extractUserOrders(final String username) throws SQLException {
-        List<Order> userOrders = new ArrayList<>();
+    public List<Order> extractUserOrders(final String username) {
         ResultSet extractedData = ConnectionPool.createResultSet(selectOrderDataByUsername(username));
-        while(extractedData.next())
-            userOrders.add(new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getInt(4), extractedData.getString(5)));
-        return userOrders;
+        return setUpOrderList(extractedData);
     }
 
-    private List<Order> setUpOrderList(ResultSet extractedData) throws SQLException {
-        List<Order> orders = new ArrayList<>();
-        while (extractedData.next())
-            orders.add(new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getInt(4), extractedData.getString(5)));
-        return orders;
+    private List<Order> setUpOrderList(ResultSet extractedData) {
+        try {
+            List<Order> orders = new ArrayList<>();
+            while (extractedData.next())
+                orders.add(new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getInt(4), extractedData.getString(5)));
+            return orders;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 
-    private String insertNewOrder(final String username, final String orderName, final int priceOffer, final int statusID) {
-        return "INSERT INTO ITCompanyDataBase.orderTable (username, orderName, priceOffer, orderStatusID) VALUES ('" + username + "', '" + orderName + "', " + priceOffer + ", " + statusID + ")";
+    private String insertNewOrder(final String username, final String orderName, final int statusID) {
+        return "INSERT INTO ITCompanyDataBase.orderTable (username, orderName, orderPrice, orderStatusID) VALUES ('" + username + "', '" + orderName + "', " + null + ", " + statusID + ")";
     }
 
     private String updateOrderStatus(final int orderID, final int statusID) {
@@ -57,14 +66,18 @@ public class OrderDatabase {
     }
 
     private String selectOrderDataByUsername(final String username) {
-        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, priceOffer, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE username = '" + username + "'";
+        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE username = '" + username + "'";
     }
 
     private String selectOrderStatusMeaningByOrderID(final int orderID) {
         return "SELECT ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.orderTable.orderID = " + orderID;
     }
 
-    private String selectOrderData() {
-        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, priceOffer, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID)";
+    private String selectWorkerOrders() {
+        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE orderStatusID != 1 AND orderStatusID != 5 ORDER BY orderID";
+    }
+
+    private String selectManagerOrderData() {
+        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE orderStatusID != 3 AND orderStatusID != 4 ORDER BY orderID";
     }
 }

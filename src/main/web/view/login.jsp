@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<form class="box" action="${pageContext.request.contextPath}/login" method="post">
+<form class="box" id="login" action="${pageContext.request.contextPath}/login" method="post">
     <h1>Login</h1>
     <input type="text" name="username" placeholder="Username">
     <input type="password" name="password" placeholder="Password">

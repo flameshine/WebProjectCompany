@@ -3,7 +3,6 @@ package servlets;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.SQLException;
 import database.utils.*;
 
 public class LoginServlet extends HttpServlet {
@@ -21,7 +20,7 @@ public class LoginServlet extends HttpServlet {
         final String username = req.getParameter("username");
         final String password = req.getParameter("password");
 
-        if (checkLoginData(username, password)) {
+        if (LoginValidator.validate(username, password)) {
             session.setAttribute("username", username);
             session.setAttribute("password", password);
             moveToMenu(req, resp);
@@ -37,16 +36,6 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/worker");
         else
             resp.sendRedirect(req.getContextPath() + "/user");
-    }
-
-    private boolean checkLoginData(final String username, final String password) {
-        try {
-            if (LoginValidator.validate(username, password))
-                return true;
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        return false;
     }
 
     private String notifyIncorrectLoginInput() {

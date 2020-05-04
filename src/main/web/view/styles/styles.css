@@ -32,7 +32,6 @@ input[type="submit"]:hover {
 
 .box {
     width: 400px;
-    height: 350px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -42,6 +41,14 @@ input[type="submit"]:hover {
     border-radius: 25px;
     border: 2px solid #3498db;
     background: #191919;
+}
+
+.box #login, .box #register {
+    height: 350px;
+}
+
+.box #newOrder {
+    height: 175px;
 }
 
 .box input[type="text"], .box input[type="password"] {
@@ -248,7 +255,7 @@ table thead, table tbody tr {
 }
 
 .window input[type="submit"]:hover {
-    background-color: #2ecc71;
+    background-color: #3498db;
 }
 
 .popupCloser {
