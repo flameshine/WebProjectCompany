@@ -7,10 +7,9 @@ import models.Order;
 
 public class OrderDatabase {
 
-    private final int NOT_CONFIRMED = 1;
-
     public void addNewOrder(final String username, final String orderName) {
         try {
+            final int NOT_CONFIRMED = 1;
             Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(insertNewOrder(username, orderName, NOT_CONFIRMED));
         } catch (SQLException exception) {
             exception.printStackTrace();
