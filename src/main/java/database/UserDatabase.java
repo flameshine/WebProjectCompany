@@ -17,20 +17,20 @@ public class UserDatabase {
         }
     }
 
-    public static void notifyUser(final int orderID, final String orderStatusMeaning) throws SQLException {
-        ResultSet extractedUsername = ConnectionPool.createResultSet(selectUsernameByOrderID(orderID));
-        if (extractedUsername.next()) {
-            String username = extractedUsername.getString(1);
-            setUpUserList(Objects.requireNonNull(ConnectionPool.createResultSet(selectUserData()))).stream().filter(user -> user.getUsername().equals(username)).forEach(user -> user.sendNotification(orderStatusMeaning));
+    public void notifyUser(final int orderID, final String feedback) {
+        try {
+            ResultSet extractedUsername = ConnectionPool.createResultSet(selectUsernameByOrderID(orderID));
+            if (extractedUsername.next()) {
+                String username = extractedUsername.getString(1);
+                setUpUserList(Objects.requireNonNull(ConnectionPool.createResultSet(selectUserData()))).stream().filter(user -> user.getUsername().equals(username)).forEach(user -> user.sendNotification(feedback));
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
         }
     }
 
-    private List<User> extractUserData() {
-        ResultSet extractedData = ConnectionPool.createResultSet(selectUserData());
-        return setUpUserList(extractedData);
-    }
-
-    private static List<User> setUpUserList(ResultSet extractedData) {
+    private List<User> setUpUserList(ResultSet extractedData) {
         try {
             List<User> users = new ArrayList<>();
             while (extractedData.next())
@@ -46,11 +46,11 @@ public class UserDatabase {
         return "INSERT INTO ITCompanyDataBase.userTable (userName, userPassword) VALUES ('" + username + "', '" + password + "')";
     }
 
-    private static String selectUsernameByOrderID(final int orderID) {
+    private String selectUsernameByOrderID(final int orderID) {
         return "SELECT username FROM ITCompanyDataBase.orderTable WHERE ITCompanyDataBase.orderTable.orderID = " + orderID;
     }
 
-    private static String selectUserData() {
+    private String selectUserData() {
         return "SELECT userID, userName, userPassword FROM ITCompanyDataBase.userTable";
     }
 }

@@ -147,7 +147,7 @@ table tbody {
 }
 
 table thead, table tbody tr {
-    width: 100%;    
+    width: 100%;
     display: table;
     table-layout: fixed;
 }
@@ -198,7 +198,7 @@ table thead, table tbody tr {
     background: #3498db;
 }
 
-#popupWindow, .window {
+#popupWindow, .window, .orderPrice {
     display: none;
 }
 
@@ -226,16 +226,31 @@ table thead, table tbody tr {
     box-sizing: border-box;
 }
 
-.window .orderID, .orderOperation {
+.window .orderID, .orderOperation, #orderPrice, #rejectionReason {
     margin-left: 10px;
     margin-top: 7px
 }
 
-.window .orderID input {
-    width: 71px;
+.window .orderID input, .orderOperation select, #orderPrice input, #rejectionReason input {
+    width: 80px;
     height: 17px;
     border-radius: 3px;
-    margin-left: 12px;
+}
+
+.window .orderID input {
+    margin-left: 40px;
+}
+
+.window .orderOperation select {
+    margin-left: 30px;
+}
+
+.window #orderPrice input {
+    margin-left: 20px;
+}
+
+.window #rejectionReason input {
+    margin-left: 45px;
 }
 
 .window input[type="submit"] {

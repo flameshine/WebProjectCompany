@@ -3,15 +3,13 @@ package servlets;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
+import database.*;
 import database.utils.*;
-import database.OrderDatabase;
 
 public class ManagerServlet extends HttpServlet {
 
-    private final int CONFIRMED = 2;
-    private final int REJECTED = 5;
-
     private final OrderDatabase orderDatabase = new OrderDatabase();
+    private final UserDatabase userDatabase = new UserDatabase();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,18 +25,28 @@ public class ManagerServlet extends HttpServlet {
         final int orderStatusID = Integer.parseInt(req.getParameter("orderStatusID"));
 
         if (OrderValidator.validate(orderID)) {
-            updateOrderStatus(orderID, orderStatusID);
+            updateOrderStatus(req, orderID, orderStatusID);
             resp.getWriter().write(notifySuccess());
         }
         else
             resp.getWriter().write(notifyNonexistentID());
     }
 
-    private void updateOrderStatus(final int orderID, final int orderStatusID) {
-        if (orderStatusID == CONFIRMED)
+    private void updateOrderStatus(HttpServletRequest req, final int orderID, final int orderStatusID) {
+
+        final int CONFIRMED = 2;
+        final int REJECTED = 5;
+
+        final String SUCCESS = "Your order is confirmed!";
+
+        if (orderStatusID == CONFIRMED) {
             orderDatabase.changeOrderStatus(orderID, CONFIRMED);
-        else if (orderStatusID == REJECTED)
+            orderDatabase.changeOrderPrice(orderID, req.getParameter("orderPrice"));
+            userDatabase.notifyUser(orderID, SUCCESS);
+        } else if (orderStatusID == REJECTED) {
             orderDatabase.changeOrderStatus(orderID, REJECTED);
+            userDatabase.notifyUser(orderID, req.getParameter("rejectionReason"));
+        }
     }
 
     private String notifyNonexistentID() {
@@ -46,6 +54,6 @@ public class ManagerServlet extends HttpServlet {
     }
 
     private String notifySuccess() {
-        return "<script>" + "alert('Order status updated!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/manager';" + "</script>";
+        return "<script>" + "alert('Order information updated!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/manager';" + "</script>";
     }
 }

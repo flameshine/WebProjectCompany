@@ -38,7 +38,7 @@ public class User {
         return password;
     }
 
-    public void sendNotification(String orderStatusMeaning) {
+    public void sendNotification(String feedback) {
 
     }
 }

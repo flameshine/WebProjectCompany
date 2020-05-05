@@ -40,16 +40,40 @@
             </div>
             <div class="orderOperation">
                 <label for="option">Operation:</label>
-                <select id="option" name="orderStatusID">
+                <select id="option" name="orderStatusID" aria-required="true" onchange="selected(this)">
+                    <option selected disabled>None</option>
                     <option value="2">Confirm</option>
                     <option value="5">Reject</option>
                 </select>
+            </div>
+            <div id="orderPrice" style="display: none">
+                <label for="price">Order price:</label>
+                <input id="price" type="number" name="orderPrice" placeholder="Price">
+            </div>
+            <div id="rejectionReason" style="display: none">
+                <label for="reason">Reason:</label>
+                <input id="reason" type="text" name="rejectionReason" placeholder="Reason">
             </div>
             <input type="submit" name="submit">
         </div>
     </div>
     <label for="popupWindow" class="popupShower">Update order status</label>
 </form>
+
+<script>
+    function selected(option) {
+
+        const label = option.value;
+
+        if (label == 2) {
+            document.getElementById("orderPrice").style.display = 'block';
+            document.getElementById("rejectionReason").style.display = 'none';
+        } else if (label == 5) {
+            document.getElementById("orderPrice").style.display = 'none';
+            document.getElementById("rejectionReason").style.display = 'block';
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -18,6 +18,24 @@ public class OrderDatabase {
         }
     }
 
+    public void changeOrderStatus(final int orderID, final int orderStatusID) {
+        try {
+            Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderID, orderStatusID));
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    public void changeOrderPrice(final int orderID, final String orderPrice) {
+        try {
+            Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderPrice(orderID, orderPrice));
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
     public List<Order> extractManagerOrderData() {
         ResultSet extractedData = ConnectionPool.createResultSet(selectManagerOrderData());
         return setUpOrderList(extractedData);
@@ -26,18 +44,6 @@ public class OrderDatabase {
     public List<Order> extractWorkerOrderData() {
         ResultSet extractedData = ConnectionPool.createResultSet(selectWorkerOrders());
         return setUpOrderList(extractedData);
-    }
-
-    public void changeOrderStatus(final int orderID, final int statusID) {
-        try {
-            Objects.requireNonNull(ConnectionPool.getConnection()).createStatement().executeUpdate(updateOrderStatus(orderID, statusID));
-            ResultSet extractedStatusMeaning = ConnectionPool.createResultSet(selectOrderStatusMeaningByOrderID(orderID));
-            if (extractedStatusMeaning.next())
-                UserDatabase.notifyUser(orderID, extractedStatusMeaning.getString(1));
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            throw new RuntimeException();
-        }
     }
 
     public List<Order> extractUserOrders(final String username) {
@@ -65,12 +71,12 @@ public class OrderDatabase {
         return "UPDATE ITCompanyDataBase.orderTable SET orderStatusID = " + statusID + " WHERE orderID = " + orderID;
     }
 
-    private String selectOrderDataByUsername(final String username) {
-        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE username = '" + username + "'";
+    private String updateOrderPrice(final int orderID, final String orderPrice) {
+        return "UPDATE ITCompanyDataBase.orderTable SET orderPrice = " + orderPrice + " WHERE orderID = " + orderID;
     }
 
-    private String selectOrderStatusMeaningByOrderID(final int orderID) {
-        return "SELECT ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE ITCompanyDataBase.orderTable.orderID = " + orderID;
+    private String selectOrderDataByUsername(final String username) {
+        return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE username = '" + username + "'";
     }
 
     private String selectWorkerOrders() {

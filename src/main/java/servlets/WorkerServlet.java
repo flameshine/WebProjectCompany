@@ -8,9 +8,6 @@ import database.OrderDatabase;
 
 public class WorkerServlet extends HttpServlet {
 
-    private final int BEING_DEVELOPED = 3;
-    private final int DONE = 4;
-
     private final OrderDatabase orderDatabase = new OrderDatabase();
 
     @Override
@@ -35,6 +32,10 @@ public class WorkerServlet extends HttpServlet {
     }
 
     private void updateOrderStatus(final int orderID, final int orderStatusID) {
+
+        final int BEING_DEVELOPED = 3;
+        final int DONE = 4;
+
         if (orderStatusID == BEING_DEVELOPED)
             orderDatabase.changeOrderStatus(orderID, BEING_DEVELOPED);
         else if (orderStatusID == DONE)
