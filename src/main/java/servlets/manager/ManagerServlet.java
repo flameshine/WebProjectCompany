@@ -1,11 +1,13 @@
-package servlets;
+package servlets.manager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import database.*;
 import database.utils.*;
 
+@WebServlet(name = "ManagerServlet", urlPatterns = "/manager")
 public class ManagerServlet extends HttpServlet {
 
     private final OrderDatabase orderDatabase = new OrderDatabase();
@@ -15,7 +17,7 @@ public class ManagerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
         req.setAttribute("managerOrders", orderDatabase.extractManagerOrderData());
-        req.getRequestDispatcher("view/roles/manager.jsp").forward(req, resp);
+        req.getRequestDispatcher("view/roles/manager/managerHome.jsp").forward(req, resp);
     }
 
     @Override

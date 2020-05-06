@@ -54,7 +54,7 @@ public class OrderDatabase {
         try {
             List<Order> orders = new ArrayList<>();
             while (extractedData.next())
-                orders.add(new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getInt(4), extractedData.getString(5)));
+                orders.add(new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getString(4), extractedData.getString(5)));
             return orders;
         } catch (SQLException exception) {
             exception.printStackTrace();

@@ -1,11 +1,13 @@
-package servlets;
+package servlets.worker;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import database.utils.*;
 import database.OrderDatabase;
 
+@WebServlet(name = "WorkerServlet", urlPatterns = "/worker")
 public class WorkerServlet extends HttpServlet {
 
     private final OrderDatabase orderDatabase = new OrderDatabase();
@@ -14,7 +16,7 @@ public class WorkerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
         req.setAttribute("workerOrders", orderDatabase.extractWorkerOrderData());
-        req.getRequestDispatcher("view/roles/worker.jsp").forward(req, resp);
+        req.getRequestDispatcher("view/roles/worker/workerHome.jsp").forward(req, resp);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class WorkerServlet extends HttpServlet {
     }
 
     private String notifyIncorrectInput() {
-        return "<script>" + "alert('Incorrect input! Please, check your input!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/manager';" + "</script>";
+        return "<script>" + "alert('Incorrect input! Please, check your input!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/worker';" + "</script>";
     }
 
     private String notifyNonexistentID() {

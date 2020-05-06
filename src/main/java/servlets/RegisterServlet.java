@@ -2,10 +2,12 @@ package servlets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import database.utils.*;
 import database.UserDatabase;
 
+@WebServlet(name = "RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
 
     private final UserDatabase userDatabase = new UserDatabase();

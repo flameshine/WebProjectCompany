@@ -4,30 +4,28 @@
 
 <link href="view/styles/styles.css" rel="stylesheet" type="text/css">
 
-<script type="text/javascript" src="js/displayManagerOptions.js"></script>
-
 <html>
 <head>
     <title>Home</title>
 </head>
 <body>
 
-<form class="orders" action="${pageContext.request.contextPath}/manager" method="post">
-    <h1>All Orders</h1>
+<form class="orders" action="${pageContext.request.contextPath}/worker" method="post">
+    <h1>Confirmed Orders</h1>
     <table>
         <tr>
             <th>ID</th>
             <th>User</th>
             <th>Name</th>
-            <th>Offer</th>
+            <th>Price</th>
             <th>Status</th>
         </tr>
-        <c:forEach var="order" items="${managerOrders}">
+        <c:forEach var="order" items="${workerOrders}">
             <tr>
                 <td>${order.getOrderID()}</td>
                 <td>${order.getUsername()}</td>
                 <td>${order.getOrderName()}</td>
-                <td>${order.getPriceOffer()}</td>
+                <td>${order.getOrderPrice()}</td>
                 <td>${order.getOrderStatusMeaning()}</td>
             </tr>
         </c:forEach>
@@ -42,19 +40,11 @@
             </div>
             <div class="orderOperation">
                 <label for="option">Operation:</label>
-                <select id="option" name="orderStatusID" aria-required="true" onchange="selected(this)">
+                <select id="option" name="orderStatusID">
                     <option selected disabled>None</option>
-                    <option value="2">Confirm</option>
-                    <option value="5">Reject</option>
+                    <option value="3">Being developed</option>
+                    <option value="4">Done</option>
                 </select>
-            </div>
-            <div id="orderPrice" style="display: none">
-                <label for="price">Order price:</label>
-                <input id="price" type="number" name="orderPrice" placeholder="Price">
-            </div>
-            <div id="rejectionReason" style="display: none">
-                <label for="reason">Reason:</label>
-                <input id="reason" type="text" name="rejectionReason" placeholder="Reason">
             </div>
             <input type="submit" name="submit">
         </div>

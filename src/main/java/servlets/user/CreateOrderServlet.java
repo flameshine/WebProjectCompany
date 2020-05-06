@@ -1,17 +1,19 @@
-package servlets;
+package servlets.user;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import database.OrderDatabase;
 
-public class UserServlet extends HttpServlet {
+@WebServlet(name = "CreateOrderServlet", urlPatterns = "/create")
+public class CreateOrderServlet extends HttpServlet {
 
     private final OrderDatabase orderDatabase = new OrderDatabase();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("view/roles/user.jsp").forward(req, resp);
+        req.getRequestDispatcher("view/roles/user/createOrder.jsp").forward(req, resp);
     }
 
     @Override
