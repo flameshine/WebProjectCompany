@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: #34495e;
+    background: #044b6e;
 }
 
 h1 {
@@ -18,7 +18,7 @@ input[type="submit"] {
     text-align: center;
     font-size: small;
     border-radius: 25px;
-    border: 2px solid #2ecc71;
+    border: 2px solid #4edaf2;
     color: whitesmoke;
     background: none;
     outline: none;
@@ -27,7 +27,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background: #2ecc71;
+    background: #4edaf2;
 }
 
 .box {
@@ -39,7 +39,7 @@ input[type="submit"]:hover {
     transform: translate(-50%, -50%);
     text-align: center;
     border-radius: 25px;
-    border: 2px solid #3498db;
+    border: 2px solid #3882d1;
     background: #191919;
 }
 
@@ -58,7 +58,7 @@ input[type="submit"]:hover {
     display: block;
     text-align: center;
     border-radius: 25px;
-    border: 2px solid #3498db;
+    border: 2px solid #3882d1;
     color: whitesmoke;
     background: none;
     outline: none;
@@ -67,7 +67,7 @@ input[type="submit"]:hover {
 
 .box input[type="text"]:focus, .box input[type="password"]:focus {
     width: 300px;
-    border-color: #2ecc71;
+    border-color: #4edaf2;
 }
 
 .box .login {
@@ -93,7 +93,7 @@ input[type="submit"]:hover {
     padding: 70px;
     text-align: center;
     border-radius: 35px;
-    border: 2px solid #3498db;
+    border: 2px solid #3882d1;
     background: #191919;
 }
 
@@ -105,7 +105,7 @@ input[type="submit"]:hover {
     text-align: center;
     color: whitesmoke;
     border-radius: 25px;
-    border: 2px solid #3498db;
+    border: 2px solid #3882d1;
     background: none;
     outline: none;
     transition: 0.25s;
@@ -113,7 +113,7 @@ input[type="submit"]:hover {
 
 .confirm_box input:focus {
     width: 300px;
-    border-color: #2ecc71;
+    border-color: #4edaf2;
 }
 
 .orders h1 {
@@ -128,25 +128,22 @@ input[type="submit"]:hover {
 
 .orders table {
     width: 750px;
-    margin-top: 250px;
+    margin-top: 200px;
     margin-left: 340px;
     text-align: center;
     border-collapse: collapse;
-    border-top: 2px solid #3498db;
-    border-bottom: 2px solid #3498db;
-    border-right: 2px solid #3498db;
-    border-left: 2px solid #3498db;
+    border: 2px solid #3882d1;
     background: #191919;
     color: whitesmoke;
 }
 
-table tbody {
+.orders table tbody {
     display: block;
     max-height: 175px;
     overflow-y: scroll;
 }
 
-table thead, table tbody tr {
+.orders table thead, .orders table tbody tr {
     width: 100%;
     display: table;
     table-layout: fixed;
@@ -154,17 +151,17 @@ table thead, table tbody tr {
 
 .orders th {
     padding: 10px 15px;
-    color: #2ecc71;
-    border-bottom: 2px solid #3498db;
+    color: #4edaf2;
+    border-bottom: 2px solid #3882d1;
 }
 
 .orders td {
-    color: #3498db;
+    color: #3882d1;
     padding: 5px 15px;
 }
 
 .orders td:hover {
-    color: #2ecc71;
+    color: #4edaf2;
     cursor: pointer;
 }
 
@@ -176,7 +173,7 @@ table thead, table tbody tr {
     text-align: center;
     font-size: medium;
     border-radius: 25px;
-    border: 2px solid #3498db;
+    border: 2px solid #3882d1;
     color: whitesmoke;
     background: #191919;
     outline: none;
@@ -195,7 +192,7 @@ table thead, table tbody tr {
 }
 
 .popupShower:hover {
-    background: #3498db;
+    background: #4edaf2;
 }
 
 #popupWindow, .window, .orderPrice {
@@ -275,7 +272,7 @@ table thead, table tbody tr {
 }
 
 .window input[type="submit"]:hover {
-    background-color: #3498db;
+    background-color: #4edaf2;
 }
 
 .popupCloser {
@@ -295,7 +292,7 @@ table thead, table tbody tr {
 }
 
 .popupCloser:hover {
-    background-color: #3498db;
+    background-color: #3882d1;
 }
 
 .menu {
@@ -316,14 +313,28 @@ table thead, table tbody tr {
 }
 
 .menu th:hover {
-    background: #2ecc71;
+    background: #4edaf2;
 }
 
 .menu a {
-    height: 60px;
+    height: 55px;
     padding: 1em 0;
     display: block;
     text-decoration: none;
+}
+
+.about {
+    width: 100%;
+    top: 50%;
+    position: absolute;
+    margin-top: -245px;
+    text-align: center;
+    font-size: 30px;
+    color: whitesmoke;
+}
+
+.about h5 {
+    margin-top: 375px;
 }
 
 .error {

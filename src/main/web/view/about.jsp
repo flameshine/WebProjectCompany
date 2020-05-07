@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>Create new order</title>
+    <title>About</title>
 </head>
 <body>
 
@@ -19,11 +19,11 @@
     </tr>
 </table>
 
-<form class="box" id="createOrder" action="${pageContext.request.contextPath}/create" method="post">
-    <h1>Create a new order</h1>
-    <input type="text" name="orderName" placeholder="Order Name">
-    <input type="submit" name="submit">
-</form>
+<div class="about">
+    <h1>About</h1>
+    <h3>Developed by Pokhyla Anton</h3>
+    <h5>Year 2020</h5>
+</div>
 
 </body>
 </html>

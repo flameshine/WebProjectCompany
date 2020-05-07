@@ -1,10 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <link href="view/styles/styles.css" rel="stylesheet" type="text/css">
 
 <html>
 <head>
-    <title>Create new order</title>
+    <title>Orders</title>
 </head>
 <body>
 
@@ -19,11 +21,27 @@
     </tr>
 </table>
 
-<form class="box" id="createOrder" action="${pageContext.request.contextPath}/create" method="post">
-    <h1>Create a new order</h1>
-    <input type="text" name="orderName" placeholder="Order Name">
-    <input type="submit" name="submit">
-</form>
+<div class="orders">
+    <h1>Orders</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Status</th>
+        </tr>
+        <c:forEach var="order" items="${userOrders}">
+            <tr>
+                <td>${order.getOrderID()}</td>
+                <td>${order.getUsername()}</td>
+                <td>${order.getOrderName()}</td>
+                <td>${order.getOrderPrice()}</td>
+                <td>${order.getOrderStatusMeaning()}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
 
 </body>
 </html>

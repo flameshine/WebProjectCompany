@@ -12,6 +12,12 @@
 </head>
 <body>
 
+<table class="menu">
+    <tr>
+        <th><a href="http://localhost:8080/WebProjectITCompany/logout"><h3>Log out</h3></a></th>
+    </tr>
+</table>
+
 <form class="orders" action="${pageContext.request.contextPath}/manager" method="post">
     <h1>All Orders</h1>
     <table>
