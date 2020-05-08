@@ -18,14 +18,24 @@ public class CreateOrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         final String username = (String) req.getSession().getAttribute("username");
         final String orderName = req.getParameter("orderName");
 
-        orderDatabase.addNewOrder(username, orderName);
-        resp.getWriter().write(notifySuccess());
+        if (orderName != null) {
+            orderDatabase.addNewOrder(username, orderName);
+            resp.getWriter().write(notifySuccess());
+        } else
+            resp.getWriter().write(notifyIncorrectInput());
     }
 
+    @org.jetbrains.annotations.NotNull
+    private String notifyIncorrectInput() {
+        return "<script>" + "alert('Incorrect input! Please, try again!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/create';" + "</script>";
+    }
+
+    @org.jetbrains.annotations.NotNull
     private String notifySuccess() {
-        return "<script>" + "alert('Success! Soon your bid will be considered!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/user';" + "</script>";
+        return "<script>" + "alert('Success! Soon your bid will be considered!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/create';" + "</script>";
     }
 }

@@ -4,7 +4,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
-import database.utils.*;
 import database.UserDatabase;
 
 @WebServlet(name = "RegisterServlet", urlPatterns = "/register")
@@ -24,7 +23,7 @@ public class RegisterServlet extends HttpServlet {
         final String firstPasswordAttempt = req.getParameter("firstPasswordAttempt");
         final String secondPasswordAttempt = req.getParameter("secondPasswordAttempt");
 
-        if (RegisterParser.parseMatches(username))
+        if (userDatabase.parseUsernameMatches(username))
             resp.getWriter().write(notifyExistingUsername());
         else if (firstPasswordAttempt.equals(secondPasswordAttempt)) {
             userDatabase.registerUser(username, firstPasswordAttempt);
@@ -34,14 +33,17 @@ public class RegisterServlet extends HttpServlet {
             resp.getWriter().write(notifyIncorrectPasswordConfirmation());
     }
 
+    @org.jetbrains.annotations.NotNull
     private String notifyExistingUsername() {
         return "<script>" + "alert('This username is already exists! Please, pick another one.');" + "window.location = 'http://localhost:8080/WebProjectITCompany/register';" + "</script>";
     }
 
+    @org.jetbrains.annotations.NotNull
     private String notifyIncorrectPasswordConfirmation() {
         return "<script>" + "alert('Incorrect password confirmation! Please, check your input.');" + "window.location = 'http://localhost:8080/WebProjectITCompany/register';" + "</script>";
     }
 
+    @org.jetbrains.annotations.NotNull
     private String notifySuccess() {
         return "<script>" + "alert('Congratulations! You have been successfully registered!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/login';" + "</script>";
     }

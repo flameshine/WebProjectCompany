@@ -1,10 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <link href="view/styles/styles.css" rel="stylesheet" type="text/css">
 
 <html>
 <head>
-    <title>About</title>
+    <title>Notifications</title>
 </head>
 <body>
 
@@ -19,10 +21,22 @@
     </tr>
 </table>
 
-<div class="about">
-    <h1>About</h1>
-    <h3>Developed by Pokhyla Anton</h3>
-    <h5>Year 2020</h5>
+<div class="notifications">
+    <h1>Notifications</h1>
+    <table>
+        <tr>
+            <th>Order</th>
+            <th>Message</th>
+            <th>Status</th>
+        </tr>
+        <c:forEach var="notification" items="${userNotifications}">
+            <tr>
+                <td>${notification.getOrderName()}</td>
+                <td>${notification.getNotificationText()}</td>
+                <td>${notification.getOrderStatusMeaning()}</td>
+            </tr>
+        </c:forEach>
+    </table>
 </div>
 
 </body>

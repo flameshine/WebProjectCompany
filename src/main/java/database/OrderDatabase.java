@@ -50,6 +50,21 @@ public class OrderDatabase {
         return setUpOrderList(extractedData);
     }
 
+    public boolean validateOrderID(final int orderID) {
+        try {
+            ResultSet extractedData = ConnectionPool.createResultSet(selectOrderID());
+            while (extractedData.next()) {
+                if (orderID == extractedData.getInt(1))
+                    return true;
+            }
+            return false;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    @org.jetbrains.annotations.NotNull
     private List<Order> setUpOrderList(ResultSet extractedData) {
         try {
             List<Order> orders = new ArrayList<>();
@@ -62,26 +77,37 @@ public class OrderDatabase {
         }
     }
 
+    @org.jetbrains.annotations.NotNull
     private String insertNewOrder(final String username, final String orderName, final int statusID) {
         return "INSERT INTO ITCompanyDataBase.orderTable (username, orderName, orderPrice, orderStatusID) VALUES ('" + username + "', '" + orderName + "', " + null + ", " + statusID + ")";
     }
 
+    @org.jetbrains.annotations.NotNull
     private String updateOrderStatus(final int orderID, final int statusID) {
         return "UPDATE ITCompanyDataBase.orderTable SET orderStatusID = " + statusID + " WHERE orderID = " + orderID;
     }
 
+    @org.jetbrains.annotations.NotNull
     private String updateOrderPrice(final int orderID, final String orderPrice) {
         return "UPDATE ITCompanyDataBase.orderTable SET orderPrice = " + orderPrice + " WHERE orderID = " + orderID;
     }
 
+    @org.jetbrains.annotations.NotNull
     private String selectOrderDataByUsername(final String username) {
         return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE username = '" + username + "'";
     }
 
+    @org.jetbrains.annotations.NotNull
+    private String selectOrderID() {
+        return "SELECT orderID FROM ITCompanyDataBase.orderTable";
+    }
+
+    @org.jetbrains.annotations.NotNull
     private String selectWorkerOrders() {
         return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE orderStatusID != 1 AND orderStatusID != 5 ORDER BY orderID";
     }
 
+    @org.jetbrains.annotations.NotNull
     private String selectManagerOrderData() {
         return "SELECT ITCompanyDataBase.orderTable.orderID, username, orderName, orderPrice, ITCompanyDataBase.orderStatusTable.statusMeaning FROM ITCompanyDataBase.orderTable JOIN ITCompanyDataBase.orderStatusTable ON (ITCompanyDataBase.orderStatusTable.statusID = ITCompanyDataBase.orderTable.orderStatusID) WHERE orderStatusID != 3 AND orderStatusID != 4 ORDER BY orderID";
     }

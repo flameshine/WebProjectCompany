@@ -15,7 +15,7 @@
 
     <filter-mapping>
         <filter-name>UserAuthenticationFilter</filter-name>
-        <url-pattern>/user</url-pattern>
+        <url-pattern>/home</url-pattern>
         <url-pattern>/create</url-pattern>
     </filter-mapping>
 

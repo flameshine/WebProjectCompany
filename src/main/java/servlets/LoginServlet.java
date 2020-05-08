@@ -4,10 +4,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
-import database.utils.*;
+import database.UserDatabase;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+
+    private final UserDatabase userDatabase = new UserDatabase();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,7 +24,7 @@ public class LoginServlet extends HttpServlet {
         final String username = req.getParameter("username");
         final String password = req.getParameter("password");
 
-        if (LoginValidator.validate(username, password)) {
+        if (userDatabase.validateLoginData(username, password)) {
             session.setAttribute("username", username);
             session.setAttribute("password", password);
             moveToMenu(req, resp);
@@ -37,9 +39,10 @@ public class LoginServlet extends HttpServlet {
         else if (req.getParameter("username").equals("worker"))
             resp.sendRedirect(req.getContextPath() + "/worker");
         else
-            resp.sendRedirect(req.getContextPath() + "/user");
+            resp.sendRedirect(req.getContextPath() + "/home");
     }
 
+    @org.jetbrains.annotations.NotNull
     private String notifyIncorrectLoginInput() {
         return "<script>" + "alert('Incorrect login or password! Please, check your input.');" + "window.location = 'http://localhost:8080/WebProjectITCompany/login';" + "</script>";
     }

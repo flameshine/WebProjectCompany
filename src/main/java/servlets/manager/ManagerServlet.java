@@ -5,7 +5,6 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import database.*;
-import database.utils.*;
 
 @WebServlet(name = "ManagerServlet", urlPatterns = "/manager")
 public class ManagerServlet extends HttpServlet {
@@ -28,7 +27,7 @@ public class ManagerServlet extends HttpServlet {
             final int orderID = Integer.parseInt(req.getParameter("orderID"));
             final int orderStatusID = Integer.parseInt(req.getParameter("orderStatusID"));
 
-            if (OrderValidator.validate(orderID)) {
+            if (orderDatabase.validateOrderID(orderID)) {
                 updateOrderStatus(req, orderID, orderStatusID);
                 resp.getWriter().write(notifySuccess());
             } else
@@ -44,20 +43,18 @@ public class ManagerServlet extends HttpServlet {
         final int CONFIRMED = 2;
         final int REJECTED = 5;
 
-        final String SUCCESS = "Your order is confirmed!";
-
         if (orderStatusID == CONFIRMED) {
             orderDatabase.changeOrderStatus(orderID, CONFIRMED);
             orderDatabase.changeOrderPrice(orderID, req.getParameter("orderPrice"));
-            userDatabase.notifyUser(orderID, SUCCESS);
+            userDatabase.notifyUser(orderID, "Your order is confirmed!", CONFIRMED);
         } else if (orderStatusID == REJECTED) {
             orderDatabase.changeOrderStatus(orderID, REJECTED);
-            userDatabase.notifyUser(orderID, req.getParameter("rejectionReason"));
+            userDatabase.notifyUser(orderID, req.getParameter("rejectionReason"), REJECTED);
         }
     }
 
     private String notifyIncorrectInput() {
-        return "<script>" + "alert('Incorrect input! Please, check your input!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/manager';" + "</script>";
+        return "<script>" + "alert('Incorrect input! Please, try again!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/manager';" + "</script>";
     }
 
     private String notifyNonexistentID() {

@@ -12,8 +12,8 @@
 
 <table class="menu">
     <tr>
-        <th><a href="http://localhost:8080/WebProjectITCompany/user"><h3>Home</h3></a></th>
-        <th><a href=""><h3>Notifications</h3></a></th>
+        <th><a href="http://localhost:8080/WebProjectITCompany/home"><h3>Home</h3></a></th>
+        <th><a href="http://localhost:8080/WebProjectITCompany/notifications"><h3>Notifications</h3></a></th>
         <th><a href="http://localhost:8080/WebProjectITCompany/create"><h3>New order</h3></a></th>
         <th><a href="http://localhost:8080/WebProjectITCompany/orders"><h3>My orders</h3></a></th>
         <th><a href="http://localhost:8080/WebProjectITCompany/about"><h3>About</h3></a></th>
