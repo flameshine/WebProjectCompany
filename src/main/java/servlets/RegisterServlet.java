@@ -45,6 +45,6 @@ public class RegisterServlet extends HttpServlet {
 
     @org.jetbrains.annotations.NotNull
     private String notifySuccess() {
-        return "<script>" + "alert('Congratulations! You have been successfully registered!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/login';" + "</script>";
+        return "<script>" + "alert('Congratulations! You have been successfully registered!');" + "window.location = 'http://localhost:8080/WebProjectITCompany/home';" + "</script>";
     }
 }
