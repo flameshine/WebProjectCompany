@@ -5,9 +5,12 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import database.*;
+import org.apache.log4j.Logger;
 
 @WebServlet(name = "WorkerServlet", urlPatterns = "/worker")
 public class WorkerServlet extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(WorkerServlet.class);
 
     private final OrderDatabase orderDatabase = new OrderDatabase();
     private final UserDatabase userDatabase = new UserDatabase();
@@ -17,6 +20,7 @@ public class WorkerServlet extends HttpServlet {
         req.getSession().invalidate();
         req.setAttribute("workerOrders", orderDatabase.extractWorkerOrderData());
         req.getRequestDispatcher("view/roles/worker/workerHome.jsp").forward(req, resp);
+        logger.info("Worker logged into his account...");
     }
 
     @Override
@@ -30,11 +34,15 @@ public class WorkerServlet extends HttpServlet {
             if (orderDatabase.validateOrderID(orderID)) {
                 updateOrderStatus(orderID, orderStatusID);
                 resp.getWriter().write(notifySuccess());
-            } else
+                logger.info("Worker successfully updated order status...");
+            } else {
                 resp.getWriter().write(notifyNonexistentID());
+                logger.info("Worker entered nonexistent order ID...");
+            }
         } catch (NumberFormatException exception) {
             exception.printStackTrace();
             resp.getWriter().write(notifyIncorrectInput());
+            logger.info("Worker entered incorrect order data...");
         }
     }
 

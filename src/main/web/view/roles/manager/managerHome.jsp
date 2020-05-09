@@ -4,7 +4,7 @@
 
 <link href="view/styles/styles.css" rel="stylesheet" type="text/css">
 
-<script type="text/javascript" src="js/displayManagerOptions.js"></script>
+<script type="text/javascript" src="displayManagerOptions.js"></script>
 
 <html>
 <head>

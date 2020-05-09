@@ -3,8 +3,11 @@ package servlets.filters;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import org.apache.log4j.Logger;
 
 public class UserAuthenticationFilter implements Filter {
+
+    private static final Logger logger = Logger.getLogger(UserAuthenticationFilter.class);
 
     private FilterConfig filterConfig;
 
@@ -23,10 +26,13 @@ public class UserAuthenticationFilter implements Filter {
 
             final HttpSession session = req.getSession();
 
-            if (session == null || session.getAttribute("username") == null || session.getAttribute("password") == null)
+            if (session == null || session.getAttribute("username") == null || session.getAttribute("password") == null) {
                 resp.sendRedirect(req.getContextPath() + "/login");
-            else
+                logger.info("Filter rejected user login attempt without authentication...");
+            } else {
                 filterChain.doFilter(servletRequest, resp);
+                logger.info("Filter confirmed user login attempt...");
+            }
         }
     }
 

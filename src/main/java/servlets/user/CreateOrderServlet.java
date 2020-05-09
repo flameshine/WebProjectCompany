@@ -5,15 +5,19 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import database.OrderDatabase;
+import org.apache.log4j.Logger;
 
 @WebServlet(name = "CreateOrderServlet", urlPatterns = "/create")
 public class CreateOrderServlet extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(CreateOrderServlet.class);
 
     private final OrderDatabase orderDatabase = new OrderDatabase();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("view/roles/user/createOrder.jsp").forward(req, resp);
+        logger.info(req.getSession().getAttribute("username") + " entered the order creation page...");
     }
 
     @Override
@@ -25,8 +29,11 @@ public class CreateOrderServlet extends HttpServlet {
         if (orderName != null) {
             orderDatabase.addNewOrder(username, orderName);
             resp.getWriter().write(notifySuccess());
-        } else
+            logger.info(req.getSession().getAttribute("username") + " added new order...");
+        } else {
             resp.getWriter().write(notifyIncorrectInput());
+            logger.info(req.getSession().getAttribute("username") + " entered incorrect order data...");
+        }
     }
 
     @org.jetbrains.annotations.NotNull
