@@ -59,19 +59,6 @@ public class UserDatabase {
         }
     }
 
-    private String getUsernameByOrderID(final int orderID) {
-        try {
-            ResultSet extractedUsername = ConnectionPool.createResultSet(selectUsernameByOrderID(orderID));
-            if (extractedUsername.next())
-                return extractedUsername.getString(1);
-            else
-                throw new RuntimeException();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-            throw new RuntimeException();
-        }
-    }
-
     @org.jetbrains.annotations.NotNull
     private List<Notification> setUpNotificationList(ResultSet extractedData) {
         try {
@@ -79,6 +66,19 @@ public class UserDatabase {
             while (extractedData.next())
                 notifications.add(new Notification(extractedData.getString(1), extractedData.getString(2), extractedData.getString(3)));
             return notifications;
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    private String getUsernameByOrderID(final int orderID) {
+        try {
+            ResultSet extractedUsername = ConnectionPool.createResultSet(selectUsernameByOrderID(orderID));
+            if (extractedUsername.next())
+                return extractedUsername.getString(1);
+            else
+                throw new RuntimeException();
         } catch (SQLException exception) {
             exception.printStackTrace();
             throw new RuntimeException();
