@@ -9,7 +9,7 @@ All interactions take place in a web browser, directly on the website of this we
 First, the user gets to the login page, where he can log in, or go to the registration page, where he can create an account.
 There are many tabs on the site, which are the navigation menu. The menu consists of the following tabs: home, notifications, create order, orders, about, log out.
 Each section is a separate page with its appearance and its capabilities.
-<l1><h2>Tools</h2>
+<li><h2>Tools</h2>
 <ul>
 <li>Java + HTML + CSS + JS</li>
 <li>Servlets API</li>
