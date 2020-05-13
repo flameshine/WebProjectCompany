@@ -1,5 +1,5 @@
-# WebProjectITCompany
-<h3>Web application that implements customer and IT company interaction. In the personal account, the authorized user can create orders, see the progress of his orders and his notifications.
+# WebProjectCompany
+<h3>Web application that implements customer and company interaction. In the personal account, the authorized user can create orders, see the progress of his orders and his notifications.
 The manager can confirm the user’s order, indicating the price, or reject, indicating the reason. Confirmed orders are handed over to the worker, who can indicate the progress of the order.
 The user can track the progress of his orders.</h3>
 <h2>Overview:</h2>
