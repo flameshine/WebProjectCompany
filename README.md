@@ -5,7 +5,7 @@ The user tracks the progress of his orders.</h3>
 <h2>Overview:</h2>
 <ul>
   <li><h2>Structure</h2>
-    This application based on the MVC principle.
+    This application based on the MVC principle:
     <ul>
       <li>Model: connection pool, database and all database interactions.</li>
       <li>View: JSP pages and styles.</li>
