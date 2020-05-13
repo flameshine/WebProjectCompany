@@ -4,6 +4,13 @@ The manager can confirm the user’s order, indicating the price, or reject, ind
 The user tracks the progress of his orders.</h3>
 <h2>Overview:</h2>
 <ul>
+  <li><h2>Structure</h2>
+    This application based on the MVC principle.
+    <ul>
+      <li>Model: connection pool, database and all database interactions.</li>
+      <li>View: JSP pages and styles.</li>
+      <li>Controller: Servlets.</li>
+    </ul>
 <li><h2>View</h2>
 All interactions take place in a web browser, directly on the website of this web application.
 First, the user gets to the login page, where he can log in, or go to the registration page, where he can create an account.
