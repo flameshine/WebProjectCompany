@@ -28,8 +28,8 @@ Each section is a separate page with its appearance and its capabilities.
 </ul>
 </li>
 <li><h2>Database</h2>
-Consists of: a list of users(userID, username, password); from a list of orders(orderID, username, orderName, orderPrice, orderStatusID);
-from a list of order statuses(statusID, statusMeaning); from a list of notifications(notificationID, orderID, username, notificationText, orderStatusID).
+Consists of: a list of users (userID, username, password); from a list of orders (orderID, username, orderName, orderPrice, orderStatusID);
+from a list of order statuses (statusID, statusMeaning); from a list of notifications (notificationID, orderID, username, notificationText, orderStatusID).
 <li><h2>Additions</h2>
 This is my first web project, which will serve as the basis for further growth in this direction.
 Also I'd like to mention my dear friend https://github.com/KostiaLeo who gave me an idea for this assignment and helped to master these technologies.
