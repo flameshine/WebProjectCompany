@@ -20,6 +20,7 @@ Each section is a separate page with its appearance and its capabilities.
 <li>Java + HTML + CSS + JS</li>
 <li>Servlets API</li>
 <li>JSP + JSTL</li>
+<li>Maven</li>
 <li>JDBC API</li>
 <li>MySQL</li>
 <li>log4j</li>
