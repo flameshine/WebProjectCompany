@@ -3,8 +3,8 @@ package OrderDatabase;
 import org.junit.*;
 import org.mockito.Mock;
 import java.util.*;
-import database.OrderDatabase;
-import models.*;
+import com.flameshine.app.database.OrderDatabase;
+import com.flameshine.app.model.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;

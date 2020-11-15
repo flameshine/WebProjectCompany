@@ -3,8 +3,8 @@ package UserDatabase;
 import org.junit.*;
 import org.mockito.Mock;
 import java.util.*;
-import database.UserDatabase;
-import models.*;
+import com.flameshine.app.database.UserDatabase;
+import com.flameshine.app.model.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
