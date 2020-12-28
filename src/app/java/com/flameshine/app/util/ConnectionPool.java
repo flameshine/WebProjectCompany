@@ -1,7 +1,7 @@
 package com.flameshine.app.util;
 
-import java.sql.*;
 import java.util.Objects;
+import java.sql.*;
 
 public class ConnectionPool {
 
@@ -23,7 +23,7 @@ public class ConnectionPool {
 
     public static ResultSet createResultSet(final String source) {
         try {
-            PreparedStatement extractedData = Objects.requireNonNull(getConnection()).prepareStatement(source);
+            var extractedData = Objects.requireNonNull(getConnection()).prepareStatement(source);
             return extractedData.executeQuery();
         } catch (SQLException exception) {
             exception.printStackTrace();

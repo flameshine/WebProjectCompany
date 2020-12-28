@@ -1,9 +1,10 @@
 package com.flameshine.app.controller.user;
 
+import java.io.IOException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.ServletException;
-import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 import com.flameshine.app.database.OrderDatabase;
@@ -24,8 +25,8 @@ public class CreateOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        final String username = (String) req.getSession().getAttribute("username");
-        final String orderName = req.getParameter("orderName");
+        final var username = (String) req.getSession().getAttribute("username");
+        final var orderName = req.getParameter("orderName");
 
         if (orderName != null) {
             orderDatabase.addNewOrder(username, orderName);

@@ -21,10 +21,10 @@ public class UserAuthenticationFilter implements Filter {
 
         if (filterConfig.getInitParameter("active").equalsIgnoreCase("true")) {
 
-            final HttpServletRequest req = (HttpServletRequest) servletRequest;
-            final HttpServletResponse resp = (HttpServletResponse) servletResponse;
+            final var req = (HttpServletRequest) servletRequest;
+            final var resp = (HttpServletResponse) servletResponse;
 
-            final HttpSession session = req.getSession();
+            final var session = req.getSession();
 
             if (session == null || session.getAttribute("username") == null || session.getAttribute("password") == null) {
                 resp.sendRedirect(req.getContextPath() + "/login");

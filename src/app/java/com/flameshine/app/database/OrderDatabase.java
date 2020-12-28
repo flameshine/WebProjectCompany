@@ -36,28 +36,33 @@ public class OrderDatabase {
     }
 
     public List<Order> extractManagerOrderData() {
-        ResultSet extractedData = ConnectionPool.createResultSet(selectManagerOrderData());
+        var extractedData = ConnectionPool.createResultSet(selectManagerOrderData());
         return setUpOrderList(extractedData);
     }
 
     public List<Order> extractWorkerOrderData() {
-        ResultSet extractedData = ConnectionPool.createResultSet(selectWorkerOrders());
+        var extractedData = ConnectionPool.createResultSet(selectWorkerOrders());
         return setUpOrderList(extractedData);
     }
 
     public List<Order> extractUserOrders(final String username) {
-        ResultSet extractedData = ConnectionPool.createResultSet(selectOrderDataByUsername(username));
+        var extractedData = ConnectionPool.createResultSet(selectOrderDataByUsername(username));
         return setUpOrderList(extractedData);
     }
 
     public boolean validateOrderID(final int orderID) {
+
         try {
-            ResultSet extractedData = ConnectionPool.createResultSet(selectOrderID());
+
+            var extractedData = ConnectionPool.createResultSet(selectOrderID());
+
             while (extractedData.next()) {
                 if (orderID == extractedData.getInt(1))
                     return true;
             }
+
             return false;
+
         } catch (SQLException exception) {
             exception.printStackTrace();
             throw new RuntimeException();
@@ -66,11 +71,16 @@ public class OrderDatabase {
 
     @org.jetbrains.annotations.NotNull
     private List<Order> setUpOrderList(ResultSet extractedData) {
+
         try {
+
             List<Order> orders = new ArrayList<>();
+
             while (extractedData.next())
                 orders.add(new Order(extractedData.getInt(1), extractedData.getString(2), extractedData.getString(3), extractedData.getString(4), extractedData.getString(5)));
+
             return orders;
+
         } catch (SQLException exception) {
             exception.printStackTrace();
             throw new RuntimeException();

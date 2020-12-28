@@ -1,9 +1,11 @@
 package com.flameshine.app.controller;
 
+import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
-import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 @WebServlet(name="LogOutServlet", urlPatterns = "/logout")

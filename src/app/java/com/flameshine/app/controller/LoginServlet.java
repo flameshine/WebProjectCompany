@@ -1,9 +1,11 @@
 package com.flameshine.app.controller;
 
+import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
-import java.io.IOException;
+
 import com.flameshine.app.database.UserDatabase;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
@@ -19,10 +21,10 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        final HttpSession session = req.getSession();
+        final var session = req.getSession();
 
-        final String username = req.getParameter("username");
-        final String password = req.getParameter("password");
+        final var username = req.getParameter("username");
+        final var password = req.getParameter("password");
 
         if (userDatabase.validateLoginData(username, password)) {
             session.setAttribute("username", username);
@@ -42,7 +44,6 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/home");
     }
 
-    @org.jetbrains.annotations.NotNull
     private String notifyIncorrectLoginInput() {
         return "<script>" + "alert('Incorrect login or password! Please, check your input.');" + "window.location = 'http://localhost:8080/WebProjectITCompany/login';" + "</script>";
     }
